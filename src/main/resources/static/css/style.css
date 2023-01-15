@@ -1,0 +1,63 @@
+.presentation {
+    display: flex;
+    width: 90%;
+    margin: auto;
+    min-height: 80vh;
+    align-items: center;
+
+}
+
+.introduction {
+    flex: 1;
+}
+
+.drawing {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    bottom: 0px;
+    height: 79%;
+    color: #494969;
+    z-index: -1;
+    width: 45%;
+
+}
+
+.intro-text h1{
+    font-size: 44px;
+    background: linear-gradient(to right, #494969,#696989);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.intro-text p {
+    margin-top: 5px;
+    font-size: 22px;
+    color: #585772;
+    width: 50%;
+}
+
+.cta {
+    padding: 50px 0px 0px 0px;
+}
+
+.cta_second{
+    border: 2px solid #4c9900;
+    background:  #4c9900;
+    color: white;
+    width: 150px;
+    height: 50px;
+    cursor: pointer ;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+.blueImg{
+    position: absolute;
+    bottom: 0px;
+    height: 100%;
+    color: #494969;
+    z-index: -1;
+    opacity: 0.1;
+
+}

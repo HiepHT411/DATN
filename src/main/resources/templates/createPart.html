@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:replace="fragments/head :: headerFragment">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">...</div>
+
+<div class="container">
+
+    <div class="col-sm-2"></div>
+
+    <div class="col-sm-8">
+
+        <h2 th:text="#{label.newquiz.pagetitle}" class="form-signin-heading text-center">New Quiz</h2>
+        <br/>
+
+        <form name='f' action='/createPart' method='POST' class="form-signin">
+            <div class="form-group">
+                <label th:text="Part Number">Part Number</label>
+                <input th:placeholder="part number" name="name" class="form-control" required="true" autofocus="true" />
+                <br/>
+                <label th:text="Part description">Description</label>
+                <textarea th:placeholder="part description" name="description" class="form-control" rows="6" > </textarea>
+                <br/>
+                <label th:text="Unit Test Number">Unit test number</label>
+                <input th:placeholder="unit test number" name="name" class="form-control" required="true"/>
+                <br/>
+                <label th:text="Unit Test Year">Unit test year</label>
+                <input th:placeholder="unit test year" name="name" class="form-control" required="true"/>
+                <br/>
+                <label th:text="Number of questions">Number of questions</label>
+                <input th:placeholder="number of questions" name="name" class="form-control" required="true"/>
+                <br/>
+
+                <button th:text="#{label.newquiz.submit}" class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="col-sm-2"></div>
+</div>
+
+
+</body>
+</html>

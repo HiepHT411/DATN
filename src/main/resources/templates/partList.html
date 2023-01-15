@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <title>List of parts</title>
+</head>
+<body ng-app="homeApp">
+
+<!--<div th:replace="fragments/header :: header">...</div>-->
+
+<!--</header>-->
+<!-- Importing NavBar -->
+<div th:insert="navbar.html :: navbar"></div>
+<div class="container">
+
+    <div ng-controller="HomeCtrl">
+
+        <div>
+            <h1 th:text="#{label.home.welcome}">Welcome to HUST Toeic Online</h1>
+            <br/>
+        </div>
+
+        <table class="table table-hover table-striped table-responsive-md" align="center">
+            <thead>
+            <tr>
+                <th th:text="#{label.home.maintable.headers.part}" width="30%">
+                    <a
+                        th:href="@{'/page/' + ${currentPage} + '?sortField=createDate&sortDir=' + ${reverseSortDir}}">
+                        Part</a></th>
+                <th th:text="#{label.home.maintable.headers.description}">Description</th>
+
+                <th th:text="#{label.home.maintable.headers.unit}">
+                    <a th:href="@{'/page/' + ${currentPage} + '?sortField=unitTest&sortDir=' + ${reverseSortDir}}">
+                        Unit test</a></th>
+                <th th:text="#{label.home.maintable.headers.year}">Year</th>
+                <th th:text="#{label.home.maintable.headers.questions}">Questions</th>
+                <th th:text="#{label.home.maintable.headers.times}">Times</th>
+                <th th:text="#{label.home.maintable.headers.play}">Start!</th>
+                <th  sec:authorize="hasRole('ADMIN')">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="part : ${listOfParts}">
+                <td th:text="${part.partNumber}">
+<!--                    <h4>{{part.name}}</h4>-->
+<!--                    <h5><small class="text-muted">{{quiz.description}}</small></h5>-->
+                </td>
+                <td th:text="${part.description}">
+<!--                    <p>{{part.description}}</p>-->
+                </td>
+                <td th:text="${part.unitTestNumber}"/>
+                <td th:text="${part.year}"/>
+                <td th:text="${#lists.size(part.questions)}"/>
+                <td th:text="${part.times}"/>
+
+
+<!--                <td>-->
+<!--                    <p>2022</p>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <p>{{part.questions.size}}</p>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <p>45</p>-->
+<!--                </td>-->
+                <td>
+<!--                    <a href="@{/part/{id}(id = ${part.id})}" class="btn btn-primary">-->
+                    <a th:href="@{/part/} + ${part.id}" class="btn btn-primary">
+
+                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                    </a>
+                </td>
+                <td  sec:authorize="hasRole('ADMIN')" >
+                    <a th:href="@{/showFormForUpdatePart/{id}(id=${part.id})}"
+                       class="btn btn-primary">Update</a>
+                    <a th:href="@{/deletePart/{id}(id=${part.id})}"
+                        class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${totalPages > 1}">
+            <div class="row col-sm-10">
+                <div class="col-sm-2">Total Rows: [[${totalItems}]]</div>
+                <div class="col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
+                            th:if="${currentPage != i}"
+                            th:href="@{'/partList' + '?pageNo=' + ${i}+ '&pageSize=10&?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+						&nbsp;
+					</span>
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage < totalPages}"
+                       th:href="@{'/partList' + '?pageNo=' + ${currentPage + 1}+ '&pageSize=10&?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                    <span th:unless="${currentPage < totalPages}">Next</span>
+                </div>
+
+<!--                <div class="col-sm-1">-->
+<!--                    <a th:if="${currentPage < totalPages}"-->
+<!--                       th:href="@{'/partList' + '?pageNo=' + ${totalPages}+ '&pageSize=10&?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
+<!--                    <span th:unless="${currentPage < totalPages}">Previous</span>-->
+<!--                </div>-->
+            </div>
+        </div>
+
+<!--        <div class="text-center">-->
+<!--            <button th:text="#{label.home.maintable.loadmore}" class="btn btn-default" ng-click="loadNextPage()" ng-show="pagination.morePagesAvailable">Load more...</button>-->
+<!--        </div>-->
+
+    </div>
+
+</div>
+<br/>
+<br/>
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+<div th:replace="fragments/angular :: angular">...</div>
+<script type="text/javascript" src="../js/homeApp.js"
+        th:src="@{/js/homeApp.js}"></script>
+
+</body>
+</html>

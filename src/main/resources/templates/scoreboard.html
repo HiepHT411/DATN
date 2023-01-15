@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/score.css}">
+	<title>Score Board</title>
+</head>
+<body>
+
+	<!-- Importing NavBar -->
+	<div th:insert="navbar.html :: navbar"></div>
+	
+	<!-- Main Container Start -->
+	<div class="main-container container py-5 px-4">
+		<h3 class="bg-danger text-center mb-5 p-2">Top Scores</h3>
+		
+		<table class="bg-success bg-gradient text-light">
+			<thead>
+			<tr>
+				<th>Name</th>
+				<th>Unit Test</th>
+				<th>Year</th>
+				<th>Part</th>
+				<th>Score</th>
+				<th>Date</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="score : ${sList}">
+				<td th:text="${score.username}"></td>
+				<td th:text="${score.unitTestNumber}"></td>
+				<td th:text="${score.year}"></td>
+				<td th:text="${score.partNumber}"></td>
+				<td th:text="${score.totalCorrect}"></td>
+				<td th:text="${score.dateTime}"></td>
+			</tr>
+			</tbody>
+		</table>
+		<div th:if="${totalPages > 1}">
+			<div class="row col-sm-10">
+				<div class="col-sm-2">Total Rows: [[${totalItems}]]</div>
+				<div class="col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
+							th:if="${currentPage != i}"
+							th:href="@{'/score' + '?pageNo=' + ${i}+ '&pageSize=10&?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+						&nbsp;
+					</span>
+				</div>
+				<div class="col-sm-1">
+					<a th:if="${currentPage < totalPages}"
+					   th:href="@{'/score' + '?pageNo=' + ${currentPage + 1}+ '&pageSize=10&?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+					<span th:unless="${currentPage < totalPages}">Next</span>
+				</div>
+
+<!--				<div class="col-sm-1">-->
+<!--					<a th:if="${currentPage < totalPages}"-->
+<!--					   th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
+<!--					<span th:unless="${currentPage < totalPages}">Last</span>-->
+<!--				</div>-->
+			</div>
+		</div>
+	</div>
+	
+	<!-- Importing Footer -->
+	<div th:insert="footer.html :: footer"></div>
+	
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
