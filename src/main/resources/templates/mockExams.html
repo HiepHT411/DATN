@@ -24,7 +24,7 @@
     <div ng-controller="HomeCtrl">
 
         <div>
-            <h1 th:text="#{label.home.welcome}">Welcome to HUST Toeic Online</h1>
+            <h1 th:text="#{label.home.welcome}">Mock Exams</h1>
             <br/>
         </div>
 
@@ -74,11 +74,11 @@
                 <!--                </td>-->
                 <td>
                     <!--                    <a href="@{/part/{id}(id = ${part.id})}" class="btn btn-primary">-->
-                    <form name="navigateForm" method="POST" action="@{/unitTest/} + ${test.id} + '/part/1'">
-<!--                        <input type = "hidden" name = "" value="">-->
-                        <button type="submit" class="btn btn-danger d-block mx-auto mt-4">Go</button>
-                        <button type="submit" class="glyphicon glyphicon-play" aria-hidden="true"></button>
-                    </form>
+<!--                    <form name="navigateForm" method="POST" action="@{/unitTest/} + ${test.id} + '/part/1'">-->
+<!--&lt;!&ndash;                        <input type = "hidden" name = "" value="">&ndash;&gt;-->
+<!--                        <button type="submit" class="btn btn-danger d-block mx-auto mt-4">Go</button>-->
+<!--                        <button type="submit" class="glyphicon glyphicon-play" aria-hidden="true"></button>-->
+<!--                    </form>-->
                     <a th:href="@{/unitTest/} + ${test.id} + '/part/1'" class="btn btn-primary">
 
                         <span class="glyphicon glyphicon-play" aria-hidden="true"></span>

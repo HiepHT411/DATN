@@ -83,6 +83,13 @@ public class HomeController {
         return "partList";
     }
 
+    @DeleteMapping("/deletePart/{id}")
+    public String deleteEmployee(@PathVariable(value = "id") long id) {
+
+        this.partService.deletePartById(id);
+        return "redirect:/";
+    }
+
     @GetMapping("part/{id}")
     @PreAuthorize("isAuthenticated()")
     public String startPart(@PathVariable(name = "id") Long id, Model model) {

@@ -21,7 +21,7 @@
     <h2 class="bg-danger text-light">[[${unitTest.description}]]</h2>
     <h3 class="bg-primary text-light">[[${part.partNumber}]]</h3>
 
-    <form th:action="@{/submit/unitTest/{id}(id=${part.id})}" method="POST" th:object=${part}>
+    <form th:action="@{/nextPart}" method="POST" th:object=${part}>
         <div class="ques-box bg-light text-dark" th:each="ques, i: ${part.questions}">
             <p class="title" th:text="${ques.title}"></p>
 
@@ -49,8 +49,15 @@
             <input type="hidden" th:name="|questions[${i.index}].title|" th:value="${ques.title}" />
             <input type="hidden" th:name="|questions[${i.index}].ans|" th:value="${ques.ans}" />
         </div>
-
-        <button type="submit" class="btn btn-danger d-block mx-auto mt-4">Submit Answer</button>
+        <input type="hidden" th:name="|id|" th:value="${part.id}" />
+        <div class="ques-box bg-light text-dark" th:value="${part.id}">
+            <input type="hidden" th:name="|id|" th:value="${part.id}" />
+        </div>
+        <button type="submit" class="btn btn-danger d-block mx-auto mt-4">Next part</button>
+<!--        <div class="submit">-->
+<!--            <input type="submit" value="NEXT PART">-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-danger d-block mx-auto mt-4">Submit Answer</button>-->
     </form>
     <div th:if="${numberOfParts > 1}">
         <div class="row col-sm-10">
