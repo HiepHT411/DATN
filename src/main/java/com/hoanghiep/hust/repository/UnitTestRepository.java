@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UnitTestRepository extends JpaRepository<UnitTest, Long> {
 
-
+    UnitTest findByYearAndUnitTestNumber(String year, int unitTestNumber);
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface PartRepo extends JpaRepository<Part, Long> {
 
     List<Part> findByUnitTestId(Long id);
+
+    Part findByUnitTestIdAndPartNumber(Long id, int partNumber);
 }
