@@ -15,7 +15,7 @@ public interface IPartService {
 
     void deletePartById(Long id);
 
-    Part createPart(CreatePartDto createPartDto, User user);
+    Part createPart(CreatePartDto createPartDto, String user);
 
     List<Part> getPartByUnitTestId(Long unitTestId);
 }

@@ -188,17 +188,25 @@ public class HomeController {
 
     @PostMapping(value = "/createPart")
     @PreAuthorize("isAuthenticated()")
-    public String newPart(@AuthenticationPrincipal AuthenticatedUser user, @Valid CreatePartDto createPartDto, BindingResult result,
+    public String newPart(@Valid CreatePartDto createPartDto, BindingResult result,
                           Map<String, Object> model) {
         Part newPart;
 
         try {
             VerifierUtils.verifyModelResult(result);
-            newPart = partService.createPart(createPartDto, user.getUser());
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username = "";
+            if (principal instanceof UserDetails) {
+                username = ((UserDetails)principal).getUsername();
+            } else {
+                username = principal.toString();
+            }
+            newPart = partService.createPart(createPartDto, username);
         } catch (ModelVerificationException e) {
             return "createPart";
         }
-//        return "error";
-        return "redirect:/editPart/" + newPart.getId();
+
+           return "home";
+//        return "redirect:/editPart/" + newPart.getId();
     }
 }

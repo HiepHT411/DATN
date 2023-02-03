@@ -7,6 +7,7 @@ import com.hoanghiep.hust.entity.User;
 import com.hoanghiep.hust.exception.ResourceUnavailableException;
 import com.hoanghiep.hust.repository.PartRepo;
 import com.hoanghiep.hust.repository.UnitTestRepository;
+import com.hoanghiep.hust.repository.UserRepository;
 import com.hoanghiep.hust.service.IPartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,6 +29,9 @@ public class PartServiceImpl implements IPartService {
 
     @Autowired
     private UnitTestRepository unitTestRepo;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Page<Part> getAllParts(int pageNo, int pageSize, String sortField, String sortDir) {
@@ -47,7 +53,8 @@ public class PartServiceImpl implements IPartService {
     }
 
     @Override
-    public Part createPart(CreatePartDto createPartDto, User user) {
+//    @Transactional
+    public Part createPart(CreatePartDto createPartDto, String username) {
         UnitTest unitTest = new UnitTest();
         Part part = new Part();
         if(Objects.nonNull(unitTestRepo.findByYearAndUnitTestNumber(createPartDto.getYear(), createPartDto.getUnitTestNumber()))){
@@ -56,20 +63,19 @@ public class PartServiceImpl implements IPartService {
                 part = partRepo.findByUnitTestIdAndPartNumber(unitTest.getId(), createPartDto.getPartNumber());
             }
         } else {
-            unitTest.setCreatedBy(user.getUsername());
+            unitTest.setCreatedBy(username);
             unitTest.setYear(createPartDto.getYear());
             unitTest.setUnitTestNumber(createPartDto.getUnitTestNumber());
             unitTest.setDescription(createPartDto.getUnitTestDescription());
+            unitTest.setCreatedDate(LocalDateTime.now());
             unitTest = unitTestRepo.save(unitTest);
-
-            part.setUnitTest(unitTest);
-            part.setCreatedBy(user);
-            part.setPartNumber(createPartDto.getPartNumber());
-            part.setDescription(createPartDto.getPartDescription());
-            part.setPartType(createPartDto.getPartType());
-            part.setTimes(createPartDto.getTimes());
         }
-
+        part.setUnitTest(unitTest);
+        part.setCreatedBy(userRepository.findByUsername(username));
+        part.setPartNumber(createPartDto.getPartNumber());
+        part.setDescription(createPartDto.getPartDescription());
+        part.setPartType(createPartDto.getPartType());
+        part.setTimes(createPartDto.getTimes());
 
         return this.partRepo.save(part);
     }
