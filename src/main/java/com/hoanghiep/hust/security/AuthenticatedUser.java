@@ -1,31 +1,31 @@
 package com.hoanghiep.hust.security;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-import com.hoanghiep.hust.enums.Role;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.hoanghiep.hust.entity.User;
 
+@Data
 public class AuthenticatedUser implements UserDetails{
 
 	private User user;
-
-	public AuthenticatedUser(User user) {
-		this.user = user;
-	}
 
 	public User getUser() {
 		return user;
 	}
 
+	public AuthenticatedUser(User user) {
+		this.user = user;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = Set.of(Role.ROLE_USER).stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toList());
+		String userRole = user.getRoles().iterator().next().toString();
+		List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(userRole));
 		return authorities;
 	}
 

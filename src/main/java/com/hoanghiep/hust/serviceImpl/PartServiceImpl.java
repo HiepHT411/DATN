@@ -3,7 +3,6 @@ package com.hoanghiep.hust.serviceImpl;
 import com.hoanghiep.hust.dto.CreatePartDto;
 import com.hoanghiep.hust.entity.Part;
 import com.hoanghiep.hust.entity.UnitTest;
-import com.hoanghiep.hust.entity.User;
 import com.hoanghiep.hust.exception.ResourceUnavailableException;
 import com.hoanghiep.hust.repository.PartRepo;
 import com.hoanghiep.hust.repository.UnitTestRepository;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -57,14 +55,14 @@ public class PartServiceImpl implements IPartService {
     public Part createPart(CreatePartDto createPartDto, String username) {
         UnitTest unitTest = new UnitTest();
         Part part = new Part();
-        if(Objects.nonNull(unitTestRepo.findByYearAndUnitTestNumber(createPartDto.getYear(), createPartDto.getUnitTestNumber()))){
-            unitTest = unitTestRepo.findByYearAndUnitTestNumber(createPartDto.getYear(), createPartDto.getUnitTestNumber());
+        if(Objects.nonNull(unitTestRepo.findByYearAndUnitTestNumber(createPartDto.getUnitTestYear(), createPartDto.getUnitTestNumber()))){
+            unitTest = unitTestRepo.findByYearAndUnitTestNumber(createPartDto.getUnitTestYear(), createPartDto.getUnitTestNumber());
             if(Objects.nonNull(partRepo.findByUnitTestIdAndPartNumber(unitTest.getId(), createPartDto.getPartNumber()))){
                 part = partRepo.findByUnitTestIdAndPartNumber(unitTest.getId(), createPartDto.getPartNumber());
             }
         } else {
             unitTest.setCreatedBy(username);
-            unitTest.setYear(createPartDto.getYear());
+            unitTest.setYear(createPartDto.getUnitTestYear());
             unitTest.setUnitTestNumber(createPartDto.getUnitTestNumber());
             unitTest.setDescription(createPartDto.getUnitTestDescription());
             unitTest.setCreatedDate(LocalDateTime.now());

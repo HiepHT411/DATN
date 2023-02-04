@@ -11,7 +11,8 @@
 </head>
 <body>
 
-<div th:replace="fragments/header :: header">...</div>
+<!-- Importing NavBar -->
+<div th:insert="navbar.html :: navbar"></div>
 
 <div class="container">
 
@@ -19,7 +20,7 @@
 
     <div class="col-sm-8">
 
-        <h2 th:text="#{label.newquiz.pagetitle}" class="form-signin-heading text-center">New Quiz</h2>
+        <h2 th:text="#{label.newquiz.pagetitle}" class="form-signin-heading text-center">New Part</h2>
         <br/>
 
         <form name='f' action='/createPart' method='POST' th:object="${createPartDto}" class="form-signin">

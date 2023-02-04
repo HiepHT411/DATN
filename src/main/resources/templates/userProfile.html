@@ -29,8 +29,8 @@
 <div class="text-center" sec:authentication="name"></div>
 <h3 class="text-center">Authenticated user roles:</h3>
 <div class="text-center" sec:authentication="principal.authorities"></div>
-    <div sec:authorize="isAuthenticated()" class="cta">
-        <button  class="btn btn-danger"><a class="cta_second" href="/user/logout">Log out</a></button>
+    <div sec:authorize="isAuthenticated()" class="text-center">
+        <button  class="btn btn-danger"><a href="/user/logout">Log out</a></button>
     </div>
 <!-- Importing Footer -->
 <div th:insert="footer.html :: footer"></div>
