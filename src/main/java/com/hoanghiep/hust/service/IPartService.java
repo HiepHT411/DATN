@@ -1,6 +1,8 @@
 package com.hoanghiep.hust.service;
 
+import com.hoanghiep.hust.dto.CreatePartDto;
 import com.hoanghiep.hust.entity.Part;
+import com.hoanghiep.hust.entity.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -13,7 +15,7 @@ public interface IPartService {
 
     void deletePartById(Long id);
 
-    void createPart(Part part);
+    Part createPart(CreatePartDto createPartDto, String user);
 
     List<Part> getPartByUnitTestId(Long unitTestId);
 }

@@ -1,5 +1,6 @@
 package com.hoanghiep.hust.controller;
 
+import com.hoanghiep.hust.dto.CreatePartDto;
 import com.hoanghiep.hust.dto.PartDto;
 import com.hoanghiep.hust.entity.*;
 import com.hoanghiep.hust.exception.ModelVerificationException;
@@ -181,23 +182,31 @@ public class HomeController {
 
     @GetMapping(value = "/createPart")
     @PreAuthorize("isAuthenticated()")
-    public String newQuiz(Map<String, Object> model) {
+    public String newPart(Map<String, Object> model) {
         return "createPart";
     }
 
     @PostMapping(value = "/createPart")
     @PreAuthorize("isAuthenticated()")
-    public String newQuiz(@AuthenticationPrincipal AuthenticatedUser user, @Valid Part part, BindingResult result,
+    public String newPart(@Valid CreatePartDto createPartDto, BindingResult result,
                           Map<String, Object> model) {
         Part newPart;
 
         try {
             VerifierUtils.verifyModelResult(result);
-            //newPart = quizService.save(part, user.getUser());
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username = "";
+            if (principal instanceof UserDetails) {
+                username = ((UserDetails)principal).getUsername();
+            } else {
+                username = principal.toString();
+            }
+            newPart = partService.createPart(createPartDto, username);
         } catch (ModelVerificationException e) {
-            return "createQuiz";
+            return "createPart";
         }
-        return "error";
-//        return "redirect:/editQuiz/" + newPart.getId();
+
+           return "home";
+//        return "redirect:/editPart/" + newPart.getId();
     }
 }
