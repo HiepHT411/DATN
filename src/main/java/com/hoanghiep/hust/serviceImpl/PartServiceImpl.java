@@ -82,4 +82,9 @@ public class PartServiceImpl implements IPartService {
     public List<Part> getPartByUnitTestId(Long unitTestId) {
         return partRepo.findByUnitTestId(unitTestId);
     }
+
+    @Override
+    public Part getPartByUnitTestIdAndPartNumber(Long unitTestId, int partNumber) {
+        return partRepo.findByUnitTestIdAndPartNumber(unitTestId, partNumber);
+    }
 }

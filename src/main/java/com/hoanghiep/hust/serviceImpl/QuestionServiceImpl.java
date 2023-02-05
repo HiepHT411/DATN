@@ -3,6 +3,7 @@ package com.hoanghiep.hust.serviceImpl;
 import com.hoanghiep.hust.entity.Question;
 import com.hoanghiep.hust.entity.Result;
 import com.hoanghiep.hust.entity.ResultTest;
+import com.hoanghiep.hust.repository.QuestionRepo;
 import com.hoanghiep.hust.repository.ResultRepo;
 import com.hoanghiep.hust.repository.ResultTestRepository;
 import com.hoanghiep.hust.service.IQuestionService;
@@ -21,6 +22,9 @@ public class QuestionServiceImpl implements IQuestionService {
 
     @Autowired
     private ResultTestRepository resultTestRepository;
+
+    @Autowired
+    private QuestionRepo questionRepo;
 
     @Override
     public int getResult(List<Question> listQuestion) {
@@ -55,6 +59,11 @@ public class QuestionServiceImpl implements IQuestionService {
         String formatDateTime = now.format(format);
         resultTest.setDateTime(formatDateTime);
         resultTestRepository.save(resultTest);
+    }
+
+    @Override
+    public void saveQuestion(Question question) {
+        questionRepo.save(question);
     }
 
 }

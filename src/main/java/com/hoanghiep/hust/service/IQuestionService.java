@@ -13,4 +13,6 @@ public interface IQuestionService {
     void saveScore(Result result);
 
     void saveUnitTestResult(ResultTest resultTest);
+
+    void saveQuestion(Question question);
 }

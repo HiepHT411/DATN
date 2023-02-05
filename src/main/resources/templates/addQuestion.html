@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/quiz.css}">
+    <title>Add Question Form</title>
+</head>
+<body>
+
+<!-- Importing NavBar -->
+<div th:insert="navbar.html :: navbar"></div>
+
+<div class="container">
+
+    <div class="col-sm-2"></div>
+
+    <div class="col-sm-8">
+        <h1 class="bg-warning text-light">Unit test [[${unitTest.unitTestNumber}]] [[${unitTest.year}]] - Part [[${part.partNumber}]] - [[${part.partType}]]</h1>
+        <h2 class="bg-danger text-light">Part description: [[${part.description}]]</h2>
+        <h2 class="form-signin-heading text-center">Add New Question</h2>
+        <br/>
+
+        <form name='f' action='/addQuestion/nextQuestion' method='POST' th:object="${questionDto}" class="form-signin">
+            <div class="form-group">
+                <label>Question</label>
+                <textarea th:placeholder="'Question'" name="title" class="form-control" rows="6" > </textarea>
+                <br/>
+                <label>Option A</label>
+                <input th:placeholder="'Option A'" name="optionA" class="form-control" required="true" autofocus="true" />
+                <br/>
+                <label>Option B</label>
+                <input th:placeholder="'Option B'" name="optionB" class="form-control" required="true" autofocus="true" />
+                <br/>
+                <label>Option C</label>
+                <input th:placeholder="'Option C'" name="optionC" class="form-control" required="true" autofocus="true" />
+                <br/
+                ><label>Option D</label>
+                <input th:placeholder="'Option D'" name="optionD" class="form-control" required="true" autofocus="true" />
+                <br/>
+                <label>Answer</label>
+                <input th:placeholder="'1/2/3/4'" name="ans" class="form-control" required="true"/>
+                <br/>
+
+                <button th:text="#{label.newquiz.submit}" class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="col-sm-2"></div>
+</div>
+
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -18,4 +18,6 @@ public interface IPartService {
     Part createPart(CreatePartDto createPartDto, String user);
 
     List<Part> getPartByUnitTestId(Long unitTestId);
+
+    Part getPartByUnitTestIdAndPartNumber(Long unitTestId, int partNumber);
 }
