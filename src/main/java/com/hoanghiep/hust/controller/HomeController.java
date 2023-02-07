@@ -150,8 +150,12 @@ public class HomeController {
                         @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                         @RequestParam(value = "sortField", required = false, defaultValue = "totalCorrect") String sortField,
                         @RequestParam(value = "sortDir", required = false, defaultValue = "desc") String sortDir) {
-       Page<Result> resultPage = resultService.getTopScore(pageNo, pageSize, sortField, sortDir);
-        model.addAttribute("sList", resultPage.getContent());
+
+        Page<ResultTest> resultTestPage = resultService.getTopScoreUnitTest(pageNo, pageSize, "totalPoint", sortDir);
+        model.addAttribute("sTList", resultTestPage.getContent());
+
+        Page<Result> resultPage = resultService.getTopScorePart(pageNo, pageSize, sortField, sortDir);
+        model.addAttribute("sPList", resultPage.getContent());
 
         model.addAttribute("listOfParts", resultPage.getContent());
         model.addAttribute("currentPage", pageNo);

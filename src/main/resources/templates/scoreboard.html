@@ -17,8 +17,30 @@
 	
 	<!-- Main Container Start -->
 	<div class="main-container container py-5 px-4">
-		<h3 class="bg-danger text-center mb-5 p-2">Top Scores</h3>
-		
+		<h2 class="bg-danger text-center mb-5 p-2">Top Scores</h2>
+		<h3 class="bg-warning text-center mb-5 p-2">Unit Test</h3>
+		<table class="bg-success bg-gradient text-light">
+			<thead>
+			<tr>
+				<th>Name</th>
+				<th>Unit Test</th>
+				<th>Year</th>
+				<th>Score</th>
+				<th>Date</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="score : ${sTList}">
+				<td th:text="${score.username}"></td>
+				<td th:text="${score.unitTestNumber}"></td>
+				<td th:text="${score.year}"></td>
+				<td th:text="${score.totalPoint}"></td>
+				<td th:text="${score.dateTime}"></td>
+			</tr>
+			</tbody>
+		</table>
+		<br>
+		<h3 class="bg-warning text-center mb-5 p-2">Part</h3>
 		<table class="bg-success bg-gradient text-light">
 			<thead>
 			<tr>
@@ -31,7 +53,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr th:each="score : ${sList}">
+			<tr th:each="score : ${sPList}">
 				<td th:text="${score.username}"></td>
 				<td th:text="${score.unitTestNumber}"></td>
 				<td th:text="${score.year}"></td>
