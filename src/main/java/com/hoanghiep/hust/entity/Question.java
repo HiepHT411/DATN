@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,7 +34,10 @@ public class Question{
 	@JsonIgnore
 	private Part part;
 
-	public Question(int quesId, String title, String optionA, String optionB, String optionC, String optionD, int ans, int chose) {
+	@Column(name = "idx")
+	private int index;
+
+	public Question(int quesId, String title, String optionA, String optionB, String optionC, String optionD, int ans, int chose, int index) {
 		super();
 		this.quesId = quesId;
 		this.title = title;
@@ -43,11 +47,12 @@ public class Question{
 		this.optionD = optionD;
 		this.ans = ans;
 		this.chose = chose;
+		this.index = index;
 	}
 
 	@Override
 	public String toString() {
-		return "Question [quesId=" + quesId + ", title=" + title + ", optionA=" + optionA + ", optionB=" + optionB + ", optionC=" + optionC + ", ans=" + ans + ", chose=" + chose + "]";
+		return "Question [quesId=" + quesId + ", index= " + index + ", title=" + title + ", optionA=" + optionA + ", optionB=" + optionB + ", optionC=" + optionC + ", ans=" + ans + ", chose=" + chose + "]";
 	}
 
 }

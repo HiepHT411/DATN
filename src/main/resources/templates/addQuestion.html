@@ -26,6 +26,9 @@
 
         <form name='f' action='/addQuestion/nextQuestion' method='POST' th:object="${questionDto}" class="form-signin">
             <div class="form-group">
+                <label>Question Number</label>
+                <input th:placeholder="'Index'" name="index" class="form-control" required="true" autofocus="true" />
+                <br/>
                 <label>Question</label>
                 <textarea th:placeholder="'Question'" name="title" class="form-control" rows="6" > </textarea>
                 <br/>

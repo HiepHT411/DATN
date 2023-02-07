@@ -4,6 +4,7 @@ import com.hoanghiep.hust.dto.CreatePartDto;
 import com.hoanghiep.hust.dto.PartDto;
 import com.hoanghiep.hust.entity.*;
 import com.hoanghiep.hust.exception.ModelVerificationException;
+import com.hoanghiep.hust.repository.PartDirectionsRepository;
 import com.hoanghiep.hust.security.AuthenticatedUser;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
@@ -49,6 +50,9 @@ public class HomeController {
     @Autowired
     private IUnitTestService unitTestService;
     private Boolean submitted = false;
+
+    @Autowired
+    private PartDirectionsRepository partDirectionsRepository;
 
     @GetMapping("/")
     public String main() {
@@ -105,6 +109,8 @@ public class HomeController {
         partDto.setYear(part.getUnitTest().getYear());
         partDto.setUnitTestNumber(part.getUnitTest().getUnitTestNumber());
         model.addAttribute("part", partDto);
+        model.addAttribute("directions", partDirectionsRepository.findById((long) part.getPartNumber()).get().getDirections());
+
 
         return "startPart";
     }

@@ -3,6 +3,7 @@ package com.hoanghiep.hust.controller;
 import com.hoanghiep.hust.entity.Part;
 import com.hoanghiep.hust.entity.ResultTest;
 import com.hoanghiep.hust.entity.UnitTest;
+import com.hoanghiep.hust.repository.PartDirectionsRepository;
 import com.hoanghiep.hust.repository.ResultTestRepository;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
@@ -50,6 +51,9 @@ public class TestController {
 
     @Autowired
     private ResultTestRepository resultTestRepository;
+
+    @Autowired
+    private PartDirectionsRepository partDirectionsRepository;
 
 
 //    @GetMapping("/removethis/unitTest/{id}/part/{partNumber}")
@@ -153,6 +157,7 @@ public class TestController {
         aModel.addAttribute("unitTest", unitTest);
         // ADD COMPONENTS TO THE MODEL
         aModel.addAttribute("part", part);
+        aModel.addAttribute("directions", partDirectionsRepository.findById((long) part.getPartNumber()).get().getDirections());
         return "startUnitTest";  // HTML TEMPLATE THAT DISPLAYS QUESTION DATA
     } // QUIZQUESTION(MODEL,HTTPSERVLETREQUEST,HTTPSERVLETRESPONSE)
 
@@ -191,7 +196,7 @@ public class TestController {
         }
         List<Part> parts = partService.getPartByUnitTestId(partInfo.getUnitTest().getId());
         if (partInfo.getPartNumber() < parts.size()) {
-            Part nextPart = parts.get(partInfo.getPartNumber());
+            Part nextPart = partService.getPartByUnitTestIdAndPartNumber(partInfo.getUnitTest().getId(), partInfo.getPartNumber()+1);
             HttpSession mySession = request.getSession(true);
             mySession.setAttribute("part", nextPart);
             return this.displayquestion(aModel,request);
