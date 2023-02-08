@@ -3,11 +3,7 @@ package com.hoanghiep.hust.entity;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.lang.Nullable;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Question{
 
 	@Id
@@ -36,6 +33,10 @@ public class Question{
 
 	@Column(name = "idx")
 	private int index;
+
+	@OneToOne
+	@JsonIgnore
+	private QuestionStackDirections questionStackDirections;
 
 	public Question(int quesId, String title, String optionA, String optionB, String optionC, String optionD, int ans, int chose, int index) {
 		super();

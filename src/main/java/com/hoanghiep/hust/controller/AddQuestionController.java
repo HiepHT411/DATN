@@ -1,16 +1,13 @@
 package com.hoanghiep.hust.controller;
 
-import com.hoanghiep.hust.entity.Part;
-import com.hoanghiep.hust.entity.Question;
-import com.hoanghiep.hust.entity.ResultTest;
-import com.hoanghiep.hust.entity.UnitTest;
+import com.hoanghiep.hust.dto.CreateQuestionDto;
+import com.hoanghiep.hust.entity.*;
+import com.hoanghiep.hust.repository.QuestionStackDirectionsRepository;
 import com.hoanghiep.hust.repository.ResultTestRepository;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
 import com.hoanghiep.hust.service.IUnitTestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +34,9 @@ public class AddQuestionController {
 
     @Autowired
     private ResultTestRepository resultTestRepository;
+
+    @Autowired
+    private QuestionStackDirectionsRepository questionStackDirectionsRepository;
 
     @GetMapping("/selectUnitTestAndPart")
     public String selectUnitTestAndPart(Model model){
@@ -90,13 +90,31 @@ public class AddQuestionController {
     }
 
     @RequestMapping("/nextQuestion")
-    public String nextQuestion(Model aModel, HttpServletRequest request, @ModelAttribute Question questionDto) {
+    public String nextQuestion(Model aModel, HttpServletRequest request, @ModelAttribute CreateQuestionDto questionDto) {
         UnitTest unitTest = (UnitTest) request.getSession().getAttribute("unitTest");
         Part part= (Part) request.getSession().getAttribute("part");
         if(Objects.nonNull(questionDto)) {
-            questionDto.setPart(part);
-            questionDto.setChose(-1);
-            questionService.saveQuestion(questionDto);
+            QuestionStackDirections questionStackDirections = null;
+            if(Objects.nonNull(questionDto.getQuestionStackDirectionTitle()) && !questionDto.getQuestionStackDirectionTitle().isEmpty()
+                    && Objects.nonNull(questionDto.getQuestionStackDirectionDirections()) && !questionDto.getQuestionStackDirectionDirections().isEmpty()){
+                QuestionStackDirections newQuestionStackDirections = new QuestionStackDirections(questionDto.getQuestionStackDirectionTitle(), questionDto.getQuestionStackDirectionDirections());
+                questionStackDirections = questionStackDirectionsRepository.save(newQuestionStackDirections);
+            }
+            Question question = Question.builder()
+                    .index(questionDto.getIndex())
+                    .title(questionDto.getTitle())
+                    .ans(questionDto.getAns())
+                    .chose(-1)
+                    .optionA(questionDto.getOptionA())
+                    .optionB(questionDto.getOptionB())
+                    .optionC(questionDto.getOptionC())
+                    .optionD(questionDto.getOptionD())
+                    .part(part)
+                    .build();
+            if (Objects.nonNull(questionStackDirections)){
+                question.setQuestionStackDirections(questionStackDirections);
+            }
+            questionService.saveQuestion(question);
         }
         aModel.addAttribute("unitTest", unitTest);
         aModel.addAttribute("part", part);

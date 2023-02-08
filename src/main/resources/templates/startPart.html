@@ -22,6 +22,11 @@
     <textarea name="partDirections" class="form-control" rows="8" >[[${directions}]]</textarea>
     <form th:action="@{/submit/part/{id}(id=${part.id})}" method="POST" th:object=${part}>
         <div class="ques-box bg-light text-dark" th:each="ques, i: ${part.questions}">
+            <span th:text="${ques?.questionStackDirections?.title}"></span>
+            <br>
+            <span th:text="${ques?.questionStackDirections?.directions}"></span>
+            <img th:src="@{${ques?.questionStackDirections?.directions}}"/>
+            <br>
             <h5>Question: [[${ques.index}]]</h5>
             <p class="title" th:text="${ques.title}"></p>
 
