@@ -61,35 +61,18 @@
                 <td th:text="${test.createdDate}"/>
                 <td><p>1-7</p></td>
                 <td><p>120</p></td>
-
-
-                <!--                <td>-->
-                <!--                    <p>2022</p>-->
-                <!--                </td>-->
-                <!--                <td>-->
-                <!--                    <p>{{part.questions.size}}</p>-->
-                <!--                </td>-->
-                <!--                <td>-->
-                <!--                    <p>45</p>-->
-                <!--                </td>-->
                 <td>
-                    <!--                    <a href="@{/part/{id}(id = ${part.id})}" class="btn btn-primary">-->
-<!--                    <form name="navigateForm" method="POST" action="@{/unitTest/} + ${test.id} + '/part/1'">-->
-<!--&lt;!&ndash;                        <input type = "hidden" name = "" value="">&ndash;&gt;-->
-<!--                        <button type="submit" class="btn btn-danger d-block mx-auto mt-4">Go</button>-->
-<!--                        <button type="submit" class="glyphicon glyphicon-play" aria-hidden="true"></button>-->
-<!--                    </form>-->
                     <a th:href="@{/unitTest/} + ${test.id} + '/part/1'" class="btn btn-primary">
 
                         <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
                     </a>
                 </td>
-                <td  sec:authorize="hasRole('ADMIN')" >
-                    <a th:href="@{/showFormForUpdatePart/{id}(id=${part.id})}"
-                       class="btn btn-primary">Update</a>
-                    <a th:href="@{/deletePart/{id}(id=${part.id})}"
-                       class="btn btn-danger">Delete</a>
-                </td>
+<!--                <td  sec:authorize="hasRole('ADMIN')" >-->
+<!--                    <a th:href="@{/showFormForUpdateUnitTest/{id}(id=${test.id})}"-->
+<!--                       class="btn btn-primary">Update</a>-->
+<!--                    <a th:href="@{/deletePart/{id}(id=${test.id})}"-->
+<!--                       class="btn btn-danger">Delete</a>-->
+<!--                </td>-->
             </tr>
             </tbody>
         </table>

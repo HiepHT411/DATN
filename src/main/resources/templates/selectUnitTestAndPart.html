@@ -24,12 +24,12 @@
         <br/>
         <select class="form-control" id="dropDownListUnitTest">
             <option value="0">select option</option>
-            <option th:each="option : ${unitTestOptions}" th:value="${option}" th:text="${option}"></option>
+            <option th:each="option : ${unitTestOptions}" th:value="${option.id}" >[[${option.unitTestNumber}]] - [[${option.year}]]</option>
         </select>
 
         <select class="form-control" id="dropDownListPart">
             <option value="0">select option</option>
-            <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
+            <option th:each="option : ${partOptions}" th:value="${option}" th:text="${option}"></option>
         </select>
 
 <!--        <div class="form-group">-->

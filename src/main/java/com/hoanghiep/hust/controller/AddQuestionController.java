@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,7 +42,8 @@ public class AddQuestionController {
 
     @GetMapping("/selectUnitTestAndPart")
     public String selectUnitTestAndPart(Model model){
-
+        model.addAttribute("unitTestOptions", unitTestService.getAllUnitTests(1, 10, "id", "desc").getContent());
+        model.addAttribute("partOptions", Arrays.asList(1,2,3,4,5,6,7));
         return "selectUnitTestAndPart";
     }
 
