@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/quiz.css}">
+    <title>Test</title>
+</head>
+<body>
+
+<!-- Importing NavBar -->
+<div th:insert="navbar.html :: navbar"></div>
+
+<div class="container">
+
+    <div class="col-sm-2"></div>
+
+    <div class="col-sm-8">
+
+        <h2 th:text="#{label.newquiz.pagetitle}" class="form-signin-heading text-center">Update Part</h2>
+        <br/>
+
+        <form name='f' action='#' th:action="@{/update/{id}(id=${part.id})}" method='POST' th:object="${part}" class="form-signin">
+            <div class="form-group">
+                <label>Part Number</label>
+                <input th:placeholder="${part.partNumber}" name="partNumber" class="form-control" required="true"/>
+                <br/>
+                <label>Part Description</label>
+                <textarea th:placeholder="${part.description}" name="description" class="form-control" rows="6" > </textarea>
+                <br/>
+                <label>Part Type</label>
+                <input th:placeholder="${part.partType}" name="partType" class="form-control" required="true"/>
+                <br/>
+                <label>Times</label>
+                <input th:placeholder="${part.times}" name="times" class="form-control"/>
+                <br/>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="col-sm-2"></div>
+</div>
+
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
