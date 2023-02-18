@@ -5,6 +5,7 @@ import com.hoanghiep.hust.dto.PartDto;
 import com.hoanghiep.hust.entity.*;
 import com.hoanghiep.hust.exception.ModelVerificationException;
 import com.hoanghiep.hust.repository.PartDirectionsRepository;
+import com.hoanghiep.hust.repository.PartRepo;
 import com.hoanghiep.hust.security.AuthenticatedUser;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 public class HomeController {
@@ -49,6 +51,10 @@ public class HomeController {
 
     @Autowired
     private IUnitTestService unitTestService;
+
+    @Autowired
+    private PartRepo partRepo;
+
     private Boolean submitted = false;
 
     @Autowired
@@ -89,9 +95,43 @@ public class HomeController {
     }
 
     @GetMapping("/deletePart/{id}")
-    public String deleteEmployee(@PathVariable(value = "id") long id) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deletePart(@PathVariable(value = "id") long id) {
 
         this.partService.deletePartById(id);
+        return "redirect:/partList";
+    }
+
+    @GetMapping("/showFormForUpdatePart/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String showFormForUpdatePart(@PathVariable(value = "id") long id, Model model) {
+        Part part = partService.getPartById(id);
+
+        model.addAttribute("part", part);
+        return "updatePart";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updatePart(@PathVariable("id") long id, @Valid Part part,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            part.setId(id);
+            return "updatePart";
+        }
+        Part partToUpDate = partService.getPartById(id);
+        if (Objects.nonNull(part.getPartNumber())) {
+            partToUpDate.setPartNumber(part.getPartNumber());
+        }
+        if (Objects.nonNull(part.getPartType())) {
+            partToUpDate.setPartType(part.getPartType());
+        }
+        if (Objects.nonNull(part.getDescription())) {
+            partToUpDate.setDescription(part.getDescription());
+        }
+        if (Objects.nonNull(part.getPartNumber())) {
+            partToUpDate.setTimes(part.getTimes());
+        }
+        partRepo.save(partToUpDate);
         return "redirect:/partList";
     }
 

@@ -2,9 +2,11 @@ package com.hoanghiep.hust.serviceImpl;
 
 import com.hoanghiep.hust.dto.CreatePartDto;
 import com.hoanghiep.hust.entity.Part;
+import com.hoanghiep.hust.entity.Question;
 import com.hoanghiep.hust.entity.UnitTest;
 import com.hoanghiep.hust.exception.ResourceUnavailableException;
 import com.hoanghiep.hust.repository.PartRepo;
+import com.hoanghiep.hust.repository.QuestionRepo;
 import com.hoanghiep.hust.repository.UnitTestRepository;
 import com.hoanghiep.hust.repository.UserRepository;
 import com.hoanghiep.hust.service.IPartService;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class PartServiceImpl implements IPartService {
@@ -31,6 +34,8 @@ public class PartServiceImpl implements IPartService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private QuestionRepo questionRepo;
     @Override
     public Page<Part> getAllParts(int pageNo, int pageSize, String sortField, String sortDir) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
@@ -47,6 +52,11 @@ public class PartServiceImpl implements IPartService {
 
     @Override
     public void deletePartById(Long id) {
+        Optional<Part> part = partRepo.findById(id);
+        if(part.isPresent()) {
+            List<Question> questions = questionRepo.findByPart(part.get());
+            questionRepo.deleteAll(questions);
+        }
         partRepo.deleteById(id);
     }
 

@@ -79,14 +79,11 @@
                     </a>
                 </td>
                 <td  sec:authorize="hasRole('ADMIN')" >
-                    <form th:action="" th:method="delete">
-<!--                        <input type="hidden" name="_method" value="delete">-->
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+
                     <a th:href="@{/showFormForUpdatePart/{id}(id=${part.id})}"
                        class="btn btn-primary">Update</a>
                     <a th:href="@{/deletePart/{id}(id=${part.id})}"
-                       class="btn btn-primary">Delete</a>
+                       class="btn btn-danger">Delete</a>
 
                 </td>
             </tr>
