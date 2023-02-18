@@ -88,11 +88,11 @@ public class HomeController {
         return "partList";
     }
 
-    @DeleteMapping("/deletePart/{id}")
+    @GetMapping("/deletePart/{id}")
     public String deleteEmployee(@PathVariable(value = "id") long id) {
 
         this.partService.deletePartById(id);
-        return "redirect:/";
+        return "redirect:/partList";
     }
 
     @GetMapping("part/{id}")
