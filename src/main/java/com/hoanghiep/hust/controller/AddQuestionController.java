@@ -1,5 +1,6 @@
 package com.hoanghiep.hust.controller;
 
+import com.hoanghiep.hust.dto.Chose;
 import com.hoanghiep.hust.dto.CreateQuestionDto;
 import com.hoanghiep.hust.entity.*;
 import com.hoanghiep.hust.repository.QuestionStackDirectionsRepository;
@@ -44,12 +45,16 @@ public class AddQuestionController {
     public String selectUnitTestAndPart(Model model){
         model.addAttribute("unitTestOptions", unitTestService.getAllUnitTests(1, 10, "id", "desc").getContent());
         model.addAttribute("partOptions", Arrays.asList(1,2,3,4,5,6,7));
+        model.addAttribute("chose", new Chose());
         return "selectUnitTestAndPart";
     }
 
-    @GetMapping("/selectUnitTest")
-    public List<UnitTest> selectUnitTest(){
-        return unitTestService.getAllUnitTests(1, 10, "id", "desc").getContent();
+    @PostMapping("/unitTest/part")
+    public String selectUnitTest(@ModelAttribute Chose chose, Model model){
+        if (Objects.nonNull(partService.getPartByUnitTestIdAndPartNumber(chose.getUnitTestId(), chose.getPartNumber()))) {
+            return "redirect:/addQuestion/unitTest/"+ chose.getUnitTestId()+"/part/"+chose.getPartNumber();
+        }
+        return "createPart";
     }
     @GetMapping("/selectPart")
     public List<Part> selectPart(@RequestParam(value = "unitTestId", required = true) Long unitTestId){

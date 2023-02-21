@@ -22,15 +22,27 @@
 
         <h2 class="form-signin-heading text-center">Select Unit Test and Part to add question to</h2>
         <br/>
-        <select class="form-control" id="dropDownListUnitTest">
-            <option value="0">select option</option>
-            <option th:each="option : ${unitTestOptions}" th:value="${option.id}" >[[${option.unitTestNumber}]] - [[${option.year}]]</option>
-        </select>
+        <form th:action="@{/addQuestion/unitTest/part}" method="post" th:object="${chose}">
+            <div class="form-group">
+                <label for="dropDownListUnitTest">Choose Unit Test</label>
+                <select class="form-control selectpicker" th:field="*{unitTestId}" id="dropDownListUnitTest">
+                    <option value="0">select option</option>
+                    <option th:each="option : ${unitTestOptions}" th:value="${option.id}" >[[${option.unitTestNumber}]] - [[${option.year}]]</option>
+                </select></div>
 
-        <select class="form-control" id="dropDownListPart">
-            <option value="0">select option</option>
-            <option th:each="option : ${partOptions}" th:value="${option}" th:text="${option}"></option>
-        </select>
+            <div class="form-group">
+                <label for="dropDownListPart">Select Part</label>
+                <select class="form-control selectpicker" th:field="*{partNumber}" id="dropDownListPart">
+                <option value="0">select option</option>
+                <option th:each="option : ${partOptions}" th:value="${option}" th:text="${option}"></option>
+            </select>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Chose</button>
+        </form>
+
+
+
 
 <!--        <div class="form-group">-->
 <!--            <label for="unitTest">Unit Test:</label>-->
