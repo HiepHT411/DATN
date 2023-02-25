@@ -1,38 +1,29 @@
 version: '3.8'
 services:
   mysqldb:
-    container_name: db1
+    container_name: mysqldb
     image: mysql:5.7
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: hust_elearnign_english
-    expose:
-      - 3306:3307
-    volumes:
-      - db:/var/lib/mysql
+      - MYSQL_DATABASE=hust_elearning_english
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - '3306:3306'
+    networks:
+      springboot-mysql-net:
+
   app:
+    container_name: toeicapp
+    build:
+      context: ./
+      dockerfile: Dockerfile
     depends_on:
       - mysqldb
-    build: C:\Users\Savvycom\Documents\Hiep\DA3
     restart: on-failure
     env_file: ./.env
     ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-    environment:
-      SPRING_APPLICATION_JSON: '{
-          "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
-          "spring.datasource.username" : "$MYSQLDB_USER",
-          "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
-          "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-          "spring.jpa.hibernate.ddl-auto" : "update"
-        }'
-    volumes:
-      - .m2:/root/.m2
-    stdin_open: true
-    tty: true
+      - "8080:8081"
+    networks:
+      springboot-mysql-net:
 
-volumes:
-  db:
+networks:
+  springboot-mysql-net:
