@@ -259,4 +259,9 @@ public class HomeController {
            return "home";
 //        return "redirect:/editPart/" + newPart.getId();
     }
+
+    @GetMapping(value = "/toeictips")
+    public String toeicTips() {
+        return "toeictips.html";
+    }
 }

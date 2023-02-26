@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <title>User Profile</title>
+</head>
+<body>
+<div th:insert="navbar.html :: navbar"></div>
+
+    <div class="blog-content">
+    <h1 class="category-name">Tổng hợp các mẹo thi TOEIC hay nhất đủ 7 phần</h1>
+    <p class="category-desc">Chỉ có kiến thức thôi đôi khi vẫn chưa đủ! Hãy bỏ túi các mẹo làm bài thi TOEIC tuyệt đỉnh của tất cả 7 phần để làm bài vừa tốc độ vừa chính xác!</p>
+    <div class="social-buttons">
+    <div class="fb-like fb_iframe_widget" style="margin-right: 15px; position: relative; top: 2px;" data-href="https://tienganhmoingay.com/meo-thi-toeic/" data-layout="button_count" data-send="true" data-width="225" data-show-faces="true" data-action="like" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=956108007815000&amp;container_width=0&amp;href=https%3A%2F%2Ftienganhmoingay.com%2Fmeo-thi-toeic%2F&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;send=true&amp;show_faces=true&amp;width=225"><span style="vertical-align: bottom; width: 150px; height: 20px;"><iframe name="f836c8e784ef08" width="225px" height="1000px" data-testid="fb:like Facebook Social Plugin" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v4.0/plugins/like.php?action=like&amp;app_id=956108007815000&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Dffdc8f69608b44%26domain%3Dtienganhmoingay.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Ftienganhmoingay.com%252Ff27ca14e0e83b3%26relation%3Dparent.parent&amp;container_width=0&amp;href=https%3A%2F%2Ftienganhmoingay.com%2Fmeo-thi-toeic%2F&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;send=true&amp;show_faces=true&amp;width=225" style="border: none; visibility: visible; width: 150px; height: 20px;" class=""></iframe></span></div>
+    <div class="google-plus-wrapper">
+    <div class="g-plusone google-plus" data-size="medium" data-href="http://tienganhmoingay.com/meo-thi-toeic/"></div>
+    </div>
+    </div>
+    <div class="google-cse-wrapper">
+    <script async="" src="https://cse.google.com/cse.js?cx=004440087135523651173:cnrlr8y9fus"></script>
+    <div id="___gcse_0"><div class="gsc-control-cse gsc-control-cse-en"><div class="gsc-control-wrapper-cse" dir="ltr"><form class="gsc-search-box gsc-search-box-tools" accept-charset="utf-8"><table cellspacing="0" cellpadding="0" role="presentation" class="gsc-search-box"><tbody><tr><td class="gsc-input"><div class="gsc-input-box" id="gsc-iw-id1"><table cellspacing="0" cellpadding="0" role="presentation" id="gs_id50" class="gstl_50 gsc-input" style="width: 100%; padding: 0px;"><tbody><tr><td id="gs_tti50" class="gsib_a"><input autocomplete="off" type="text" size="10" class="gsc-input" name="search" title="search" aria-label="search" id="gsc-i-id1" dir="ltr" spellcheck="false" style="width: 100%; padding: 0px; border: none; margin: 0px; height: auto; outline: none;" placeholder="Điền thông tin bạn muốn tìm"></td><td class="gsib_b"><div class="gsst_b" id="gs_st50" dir="ltr"><a class="gsst_a" href="javascript:void(0)" title="Clear search box" role="button" style="display: none;"><span class="gscb_a" id="gs_cb50" aria-hidden="true">×</span></a></div></td></tr></tbody></table></div></td><td class="gsc-search-button"><button class="gsc-search-button gsc-search-button-v2"><svg width="13" height="13" viewBox="0 0 13 13"><title>search</title><path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z"></path></svg></button></td><td class="gsc-clear-button"><div class="gsc-clear-button" title="clear results">&nbsp;</div></td></tr></tbody></table></form><div class="gsc-results-wrapper-nooverlay"><div class="gsc-positioningWrapper"><div class="gsc-tabsAreaInvisible"><div aria-label="refinement" role="tab" class="gsc-tabHeader gsc-inline-block gsc-tabhActive">Custom Search</div><span class="gs-spacer"> </span></div></div><div class="gsc-positioningWrapper"><div class="gsc-refinementsAreaInvisible"></div></div><div class="gsc-above-wrapper-area-invisible"><table cellspacing="0" cellpadding="0" role="presentation" class="gsc-above-wrapper-area-container"><tbody><tr><td class="gsc-result-info-container"><div class="gsc-result-info-invisible"></div></td><td class="gsc-orderby-container"><div class="gsc-orderby-invisible"><div class="gsc-orderby-label gsc-inline-block">Sort by:</div><div class="gsc-option-menu-container gsc-inline-block"><div class="gsc-selected-option-container gsc-inline-block"><div class="gsc-selected-option">Relevance</div><div class="gsc-option-selector"></div></div><div class="gsc-option-menu-invisible"><div class="gsc-option-menu-item gsc-option-menu-item-highlighted"><div class="gsc-option">Relevance</div></div><div class="gsc-option-menu-item"><div class="gsc-option">Date</div></div></div></div></div></td></tr></tbody></table></div><div class="gsc-adBlockInvisible"></div><div class="gsc-wrapper"><div class="gsc-adBlockInvisible"></div><div class="gsc-resultsbox-invisible"><div class="gsc-resultsRoot gsc-tabData gsc-tabdActive"><div><div class="gsc-expansionArea"></div></div></div></div></div></div></div></div></div>
+    <script>
+    		window.onload = function() {
+    		document.getElementById('gsc-i-id1').placeholder = "Điền thông tin bạn muốn tìm";
+    		};
+    		</script>
+    </div>
+    <div class="posts-listing">
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-phan-1/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/08/22/meo-thi-toeic-phan-1.png" title="Click to read more" alt="Mẹo thi TOEIC Part 1 : Mô Tả Hình Ảnh">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-phan-1/">Mẹo thi TOEIC Part 1 : Mô Tả Hình Ảnh</a>
+    </h3>
+    <div class="post-brief-desc">
+    Part 1 - Mô tả hình ảnh là một phần thi khá thú vị của đề thi TOEIC. Vậy làm sao để làm phần này vừa nhanh vừa chính xác? Hãy cùng tìm hiểu&nbsp;mẹo làm bài thi TOEIC Part 1&nbsp;trong bài viết này nhé!
+    <a href="/meo-thi-toeic/meo-thi-toeic-phan-1/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-2/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/08/22/meo-thi-toeic-part-2.png" title="Click to read more" alt="Mẹo thi TOEIC Part 2 : Hỏi Đáp">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-2/">Mẹo thi TOEIC Part 2 : Hỏi Đáp</a>
+    </h3>
+    <div class="post-brief-desc">
+    Part 2&nbsp;- Hỏi Đáp&nbsp;là một phần thi đơn giản nhưng tương đối khó. Vậy làm sao để làm phần này vừa nhanh vừa chính xác? Hãy cùng tìm hiểu mẹo làm bài thi TOEIC Part 2 trong bài viết này nhé!
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-2/" class="read-more">Đọc bài này</a>
+    </div>
+     </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-3/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/08/22/meo-thi-toeic-part-3.png" title="Click to read more" alt="Mẹo thi TOEIC Part 3 : Đoạn Hội Thoại">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-3/">Mẹo thi TOEIC Part 3 : Đoạn Hội Thoại</a>
+    </h3>
+    <div class="post-brief-desc">
+    Part 3&nbsp;- Đoạn hội thoại&nbsp;là một phần thi khá "khó nhằn" vì đoạn audio khá dài, và còn có 2 người khác nhau cùng nói chuyện nữa. Vậy làm sao để làm phần này vừa nhanh vừa chính xác? Hãy cùng tìm hiểu mẹo làm bài thi TOEIC Part 3 trong bài viết này nhé!
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-3/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-4/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/08/22/meo-thi-toeic-part-4.png" title="Click to read more" alt="Mẹo thi TOEIC Part 4 : Bài nói chuyện">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-4/">Mẹo thi TOEIC Part 4 : Bài nói chuyện</a>
+    </h3>
+    <div class="post-brief-desc">
+    Part 4&nbsp;- Đoạn hội thoại&nbsp;là một phần thi tương đối thử thách với nhiều người&nbsp;vì đoạn audio khá dài, đòi hỏi bạn phải tập trung. Vậy làm sao để làm phần này vừa nhanh vừa chính xác? Hãy cùng tìm hiểu mẹo làm bài thi TOEIC Part 4 trong bài viết này nhé!
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-4/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/08/22/meo-thi-toeic-part-5.png" title="Click to read more" alt="Mẹo thi TOEIC Part 5 : Điền vào chỗ trống">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5/">Mẹo thi TOEIC Part 5 : Điền vào chỗ trống</a>
+    </h3>
+    <div class="post-brief-desc">
+    Part 5&nbsp;- Điền vào chỗ trống&nbsp;là một phần tưởng đơn giản nhưng cũng tương đối lắt léo đấy!&nbsp;Vậy làm sao để làm phần này vừa nhanh vừa chính xác? Hãy cùng tìm hiểu mẹo làm bài thi TOEIC Part 5&nbsp;trong bài viết này nhé!
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-ngu-phap/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/08/22/meo-thi-toeic-part-5-ngu-phap.png" title="Click to read more" alt="Mẹo thi TOEIC Part 5 : Loại câu hỏi về ngữ pháp">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-ngu-phap/">Mẹo thi TOEIC Part 5 : Loại câu hỏi về ngữ pháp</a>
+    </h3>
+    <div class="post-brief-desc">
+    Trong số 30&nbsp;câu TOEIC Part 5 thì số lượng câu hỏi về ngữ pháp chiếm khoảng 30%-35%. Vậy làm sao để làm các câu hỏi về ngữ pháp một cách tốt&nbsp;nhất. Hãy cùng tìm hiểu trong bài học ngay!
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-ngu-phap/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-6/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/08/22/meo-thi-toeic-part-6.png" title="Click to read more" alt="Mẹo thi TOEIC Part 6 : Điền vào đoạn văn">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-6/">Mẹo thi TOEIC Part 6 : Điền vào đoạn văn</a>
+    </h3>
+    <div class="post-brief-desc">
+    Part 6&nbsp;- Điền vào đoạn văn&nbsp;là có mức độ khó trung bình trong 3 phần Reading.&nbsp;Vậy làm sao để làm phần này vừa nhanh vừa chính xác? Hãy cùng tìm hiểu&nbsp;mẹo làm bài thi TOEIC Part 6&nbsp;trong bài viết này nhé!
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-6/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-vung/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/08/22/meo-thi-toeic-part-5-tu-vung.png" title="Click to read more" alt="Mẹo thi TOEIC Part 5 : Loại câu hỏi về từ vựng">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-vung/">Mẹo thi TOEIC Part 5 : Loại câu hỏi về từ vựng</a>
+    </h3>
+    <div class="post-brief-desc">
+    Trong số 30 câu TOEIC Part 5 thì số lượng câu hỏi về từ vựng&nbsp;chiếm khoảng 20%. Tuy số câu khá ít nhưng vì số từ vựng TOEIC cần học khá "khủng" nên phần này vẫn khá đáng sợ với nhiều bạn. Vậy làm sao để làm các câu hỏi về từ vựng&nbsp;một cách tốt&nbsp;nhất, hãy cùng tìm hiểu trong bài học này nhé!
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-vung/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-7/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/08/22/meo-thi-toeic-part-7.png" title="Click to read more" alt="Mẹo thi TOEIC Part 7 : Đọc hiểu đoạn văn">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-7/">Mẹo thi TOEIC Part 7 : Đọc hiểu đoạn văn</a>
+    </h3>
+    <div class="post-brief-desc">
+    Part 7&nbsp;là một phần thi được đánh giá&nbsp;là "khó nhằn" nhất cả bài thi TOEIC vì độ dài và mức độ đa dạng của ngữ pháp và từ vựng trong phần này. Vậy làm sao để làm phần này vừa nhanh vừa chính xác? Hãy cùng tìm hiểu mẹo làm bài thi TOEIC Part 7&nbsp;trong bài viết này nhé!
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-7/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-4/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/09/12/meo-thi-toeic-part-5-tu-loai-4.png" title="Click to read more" alt="Cách làm bài TOEIC Part 5 Từ loại: Trạng từ">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-4/">Cách làm bài TOEIC Part 5 Từ loại: Trạng từ</a>
+    </h3>
+    <div class="post-brief-desc">
+    Bài viết tổng hợp mẹo và cách làm các bài tập về Từ loại: Trạng từ trong kỳ thi Toeic, một điểm ngữ pháp tuy khá dễ nhưng vẫn có nhiều điểm cần lưu ý để làm bài tốt.
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-4/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-2/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/09/12/meo-thi-toeic-part-5-tu-loai-2.png" title="Click to read more" alt="Cách làm bài TOEIC Part 5 Từ loại: Tính từ">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-2/">Cách làm bài TOEIC Part 5 Từ loại: Tính từ</a>
+    </h3>
+    <div class="post-brief-desc">
+    Bài viết tổng hợp các mẹo, cách làm bài tập và bài tập ví dụ về Từ loại Tính từ,&nbsp;một dạng bài tập khá phổ biến trong kỳ thi Toeic, giúp bạn ôn thi hiệu quả hơn.
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-2/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-3/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/09/12/meo-thi-toeic-part-5-tu-loai-3.png" title="Click to read more" alt="Cách làm bài TOEIC Part 5 Từ loại: Động từ">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-3/">Cách làm bài TOEIC Part 5 Từ loại: Động từ</a>
+    </h3>
+    <div class="post-brief-desc">
+    Bài viết tổng hợp lại các mẹo và cách làm các bài tập về Từ loại: Động từ trong kỳ thi Toeic giúp bạn nắm chắc lý thuyết và vận dụng vào bài tập.
+    &nbsp;
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-3/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    <div class="post-wrapper clearfix ">
+    <div class="post-image">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-1/">
+    <img src="https://tienganhmoingay.com/media/images/uploads/2019/09/12/meo-thi-toeic-part-5-tu-loai-1.png" title="Click to read more" alt="Cách làm bài TOEIC Part 5 Từ loại: Danh từ">
+    </a>
+    </div>
+    <div class="post-desc">
+    <h3 class="post-title">
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-1/">Cách làm bài TOEIC Part 5 Từ loại: Danh từ</a>
+    </h3>
+    <div class="post-brief-desc">
+    Ngữ pháp căn bản về Từ loại: Danh từ. Bạn sẽ học về&nbsp;vị trí của danh từ trong câu; vị trí của danh từ sau To Be &amp; các động từ thường; ...
+    <a href="/meo-thi-toeic/meo-thi-toeic-part-5-tu-loai-1/" class="read-more">Đọc bài này</a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+</body>
+</html>
