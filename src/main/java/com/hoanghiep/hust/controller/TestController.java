@@ -22,6 +22,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -118,7 +121,7 @@ public class TestController {
     @GetMapping("/unitTest/{id}/part/{partNumber}")
     public String getUnitTestById2(@PathVariable Long id, @PathVariable int partNumber,
                                    Model model,
-                                   HttpServletRequest request){
+                                   HttpServletRequest request) throws ParseException {
         submitted = false;
         UnitTest unitTest = unitTestService.getUnitTestById(id);
         List<Part> parts = partService.getPartByUnitTestId(unitTest.getId());
@@ -144,6 +147,12 @@ public class TestController {
 
         mySession.setAttribute("part", parts.get(partNumber-1));
         mySession.setAttribute("resultTest", resultTest);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, -1320);
+        calendar.add(Calendar.DATE, 2 );
+        Date endDate = calendar.getTime();
+        mySession.setAttribute("endDate", endDate);
+//        mySession.setAttribute("endDate", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2023-02-27 02:00:10"));
         return this.displayquestion(model,request);
     }
 
@@ -158,6 +167,8 @@ public class TestController {
         // ADD COMPONENTS TO THE MODEL
         aModel.addAttribute("part", part);
         aModel.addAttribute("directions", partDirectionsRepository.findById((long) part.getPartNumber()).get().getDirections());
+        Date endDate = (Date) request.getSession().getAttribute("endDate");
+        aModel.addAttribute("endDate", endDate);
         return "startUnitTest";  // HTML TEMPLATE THAT DISPLAYS QUESTION DATA
     } // QUIZQUESTION(MODEL,HTTPSERVLETREQUEST,HTTPSERVLETRESPONSE)
 
