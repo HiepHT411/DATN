@@ -149,7 +149,7 @@ public class TestController {
         mySession.setAttribute("resultTest", resultTest);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, -1320);
-        calendar.add(Calendar.DATE, 2 );
+        calendar.add(Calendar.DATE, 1 );
         Date endDate = calendar.getTime();
         mySession.setAttribute("endDate", endDate);
 //        mySession.setAttribute("endDate", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2023-02-27 02:00:10"));
