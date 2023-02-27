@@ -27,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -73,19 +74,16 @@ public class HomeController {
     @GetMapping("/partList")
     @PreAuthorize("isAuthenticated()")
     public String getUnitTest(Model model, @RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
-                              @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+                              @RequestParam(value = "pageSize", required = false, defaultValue = "50") int pageSize,
                               @RequestParam(value = "sortField", required = false, defaultValue = "id") String sortField,
                               @RequestParam(value = "sortDir", required = false, defaultValue = "desc") String sortDir) {
         Page<Part> partPage = partService.getAllParts(pageNo, pageSize, sortField, sortDir);
-        Page<PartDto> pagePartDto = commonMapper.convertToResponsePage(partPage, PartDto.class, partPage.getPageable());
-        for (int i = 0; i < partPage.getContent().size(); i++) {
-            pagePartDto.getContent().get(i).setYear(partPage.getContent().get(i).getUnitTest().getYear());
-            pagePartDto.getContent().get(i).setUnitTestNumber(partPage.getContent().get(i).getUnitTest().getUnitTestNumber());
-        }
-        model.addAttribute("listOfParts", pagePartDto.getContent());
+        Page<PartDto> partDtos = partService.getAllNonNullParts(pageNo, pageSize, sortField, sortDir);
+
+        model.addAttribute("listOfParts", partDtos.getContent());
         model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", partPage.getTotalPages());
-        model.addAttribute("totalItems", partPage.getTotalElements());
+        model.addAttribute("totalPages", partDtos.getTotalPages());
+        model.addAttribute("totalItems", partDtos.getTotalElements());
 
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);

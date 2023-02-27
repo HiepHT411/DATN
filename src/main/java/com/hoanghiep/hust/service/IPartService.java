@@ -1,6 +1,7 @@
 package com.hoanghiep.hust.service;
 
 import com.hoanghiep.hust.dto.CreatePartDto;
+import com.hoanghiep.hust.dto.PartDto;
 import com.hoanghiep.hust.entity.Part;
 import com.hoanghiep.hust.entity.User;
 import org.springframework.data.domain.Page;
@@ -20,4 +21,6 @@ public interface IPartService {
     List<Part> getPartByUnitTestId(Long unitTestId);
 
     Part getPartByUnitTestIdAndPartNumber(Long unitTestId, int partNumber);
+
+    Page<PartDto> getAllNonNullParts(int pageNo, int pageSize, String sortField, String sortDir);
 }
