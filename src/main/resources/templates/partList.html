@@ -41,6 +41,7 @@
                     <a th:href="@{'/page/' + ${currentPage} + '?sortField=unitTest&sortDir=' + ${reverseSortDir}}">
                         Unit test</a></th>
                 <th th:text="#{label.home.maintable.headers.year}">Year</th>
+                <th>Part Type</th>
                 <th th:text="#{label.home.maintable.headers.questions}">Questions</th>
                 <th th:text="#{label.home.maintable.headers.times}">Times</th>
                 <th th:text="#{label.home.maintable.headers.play}">Start!</th>
@@ -58,6 +59,7 @@
                 </td>
                 <td th:text="${part.unitTestNumber}"/>
                 <td th:text="${part.year}"/>
+                <td th:text="${part.partType}"/>
                 <td th:text="${#lists.size(part.questions)}"/>
                 <td th:text="${part.times}"/>
 
