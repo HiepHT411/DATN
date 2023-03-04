@@ -262,4 +262,9 @@ public class HomeController {
     public String toeicTips() {
         return "toeictips.html";
     }
+
+    @GetMapping(value = "/test/audio")
+    public String testAudio(){
+        return "startListeningPart";
+    }
 }
