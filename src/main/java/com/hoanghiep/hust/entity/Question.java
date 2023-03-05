@@ -38,6 +38,9 @@ public class Question{
 	@JsonIgnore
 	private QuestionStackDirections questionStackDirections;
 
+	@Column(name = "image", columnDefinition = "TEXT")
+	private String image;
+
 	public Question(int quesId, String title, String optionA, String optionB, String optionC, String optionD, int ans, int chose, int index) {
 		super();
 		this.quesId = quesId;

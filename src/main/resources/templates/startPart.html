@@ -36,6 +36,8 @@
             <span th:text="${ques?.questionStackDirections?.directions}"></span>
             <img th:src="@{${ques?.questionStackDirections?.directions}}"/>
             <br>
+            <img th:src="@{${ques?.image}}" width="600"/>
+            <br>
 
             <h5>Question: [[${ques.index}]]</h5>
             <p class="title" th:text="${ques.title}"></p>
