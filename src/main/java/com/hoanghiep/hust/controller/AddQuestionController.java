@@ -12,10 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -97,8 +102,8 @@ public class AddQuestionController {
         return "addQuestion";
     }
 
-    @RequestMapping("/nextQuestion")
-    public String nextQuestion(Model aModel, HttpServletRequest request, @ModelAttribute CreateQuestionDto questionDto) {
+    @PostMapping("/nextQuestion")
+    public String nextQuestion(Model aModel, HttpServletRequest request, CreateQuestionDto questionDto, @RequestParam("image") MultipartFile file) throws IOException {
         UnitTest unitTest = (UnitTest) request.getSession().getAttribute("unitTest");
         Part part= (Part) request.getSession().getAttribute("part");
         if(Objects.nonNull(questionDto)) {
@@ -121,6 +126,13 @@ public class AddQuestionController {
                     .build();
             if (Objects.nonNull(questionStackDirections)){
                 question.setQuestionStackDirections(questionStackDirections);
+            }
+            if (Objects.nonNull(file) && !file.isEmpty()) {
+                StringBuilder fileNames = new StringBuilder();
+                Path fileNameAndPath = Paths.get("E:\\DA\\hust-elearning-english\\src\\main\\resources\\static\\images", file.getOriginalFilename());
+                fileNames.append(file.getOriginalFilename());
+                Files.write(fileNameAndPath, file.getBytes());
+                question.setImage("/images/"+fileNames);
             }
             questionService.saveQuestion(question);
         }
