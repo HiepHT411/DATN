@@ -33,8 +33,22 @@
     </div>
 
     <textarea name="partDirections" class="form-control" rows="8" >[[${directions}]]</textarea>
+    <div>
+        <p>Click on the play button to play the audio:</p>
+        <audio controls>
+            <source th:src="@{/part/audio/{id}(id=${part.id})}" type="audio/mpeg">
+            Your browse does not support audio element
+        </audio>
+    </div>
     <form th:action="@{/nextPart}" method="POST" th:object=${part}>
         <div class="ques-box bg-light text-dark" th:each="ques, i: ${part.questions}">
+            <span th:text="${ques?.questionStackDirections?.title}"></span>
+            <br>
+            <span th:text="${ques?.questionStackDirections?.directions}"></span>
+            <img th:src="@{${ques?.questionStackDirections?.directions}}"/>
+            <br>
+            <img th:src="@{${ques?.image}}" width="600"/>
+            <br>
             <h5>Question: [[${ques.index}]]</h5>
             <p class="title" th:text="${ques.title}"></p>
 

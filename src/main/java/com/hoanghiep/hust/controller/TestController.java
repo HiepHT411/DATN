@@ -24,10 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 //@SessionAttributes({TestController.ATTRIBUTE_NAME})
@@ -125,6 +122,7 @@ public class TestController {
         submitted = false;
         UnitTest unitTest = unitTestService.getUnitTestById(id);
         List<Part> parts = partService.getPartByUnitTestId(unitTest.getId());
+        parts.sort(Comparator.comparing(Part::getPartNumber));
         model.addAttribute("numberOfParts", unitTest.getParts().size());
         model.addAttribute("unitTest", unitTest);
         model.addAttribute("part", parts.get(partNumber-1));

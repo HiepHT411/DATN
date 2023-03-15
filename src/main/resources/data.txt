@@ -1,0 +1,17 @@
+INSERT INTO hust_elearning_english.unit_test (id,description,`year`,unit_test_number,created_by,created_date) VALUES
+	 (24,' Unit test 4 2023 demo','2023',4,'hiep6@gmail.com','2023-03-02 21:06:50.621066');
+
+INSERT INTO hust_elearning_english.part (created_date,description,created_by_id,unit_test_id,times,part_number,part_type) VALUES
+	 ('2023-03-02 21:38:03',' part 5 unit test 4 -2023 demo Directions : A word or phrase is missing in each of the sentences below. Four answer choices are given below each sentence. Select the best answer to complete the sentence. Then click on (A), (B), (C), or (D) on your test screen.',15,1,10,5,'READING');
+
+INSERT INTO hust_elearning_english.questions (ans,chose,optiona,optionb,optionc,optiond,title, part_id) VALUES
+	 (4,-1,'a','an','the','Ø',' Microsoft chief executive Steve Ballmer is to retire from..........technology giant within the next 12 months.',1),
+	 (2,-1,'criticised','criticising','criticise','criticises',' Shares in Microsoft,..........for its slow response to the booming market for mobile devices, leapt 7.3% on the news.',1),
+	 (1,-1,'who','whom','whose','which',' We need a CEO..........will be here longer term for this new direction.',1),
+	 (3,-1,'had grown up','was growing up','grew up','would grow up',' Born in 1956, Mr. Ballmer..........near Detroit, where his father worked as a manager at the Ford motor company.',1),
+	 (2,-1,'to notice','to be noticed','noticing','notices',' He comes from a large family, and as a child, he had to make an effort..........',1),
+	 (2,-1,'to stand out','stand out','standing out','stands out',' What is it that makes a good boss..........from his or her corporate colleagues and rivals?',1),
+	 (3,-1,'found','were found','was found','was founded',' Unlike many technology companies, Shutterstock..........with no initial outside investment.',1),
+	 (3,-1,'hastily','prematurely','immaturely','youthfully',' Every year, more than 20 million babies are born..........or with low birth weight - and an estimated 450 of them die each hour.',1),
+	 (4,-1,'to','about','of','on',' Happy workers tend to be more productive - which makes it sensible to focus..........making sure your staff are content.',1),
+	 (4,-1,'just finished','has just finished','would finish','had just finished',' As she walked out the door of the office building where she..........a job interview, Jane wanted to jump in the air and dance across the street.',1);
