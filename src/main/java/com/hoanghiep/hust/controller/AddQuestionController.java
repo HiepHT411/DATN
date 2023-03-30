@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -94,7 +95,11 @@ public class AddQuestionController {
         Part part = (Part) request.getSession().getAttribute("part");
         // IF THIS PART IS DONE, RETURN THE RESULTS
         UnitTest unitTest = (UnitTest) request.getSession().getAttribute("unitTest");
-
+        if (questionService.getNumberOfQuestionOfPart(part) >= part.getNumberOfQuestions()) {
+            aModel.addAttribute("header", "Done");
+            aModel.addAttribute("subheader", "Reached maximum number of questions of this part");
+            return "simplemessage";
+        }
 //        aModel.addAttribute("numberOfParts", unitTest.getParts().size());
         aModel.addAttribute("unitTest", unitTest);
         // ADD COMPONENTS TO THE MODEL

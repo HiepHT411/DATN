@@ -88,6 +88,7 @@ public class PartServiceImpl implements IPartService {
         part.setDescription(createPartDto.getPartDescription());
         part.setPartType(createPartDto.getPartType());
         part.setTimes(createPartDto.getTimes());
+        part.setNumberOfQuestions(createPartDto.getNumberOfQuestions());
 
         return this.partRepo.save(part);
     }
