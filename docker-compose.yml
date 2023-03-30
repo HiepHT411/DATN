@@ -7,7 +7,7 @@ services:
       - MYSQL_DATABASE=hust_elearning_english
       - MYSQL_ROOT_PASSWORD=password
     ports:
-      - '3306:3306'
+      - '3307:3306'
     networks:
       springboot-mysql-net:
 

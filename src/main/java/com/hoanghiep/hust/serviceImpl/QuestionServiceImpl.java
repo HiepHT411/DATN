@@ -1,5 +1,6 @@
 package com.hoanghiep.hust.serviceImpl;
 
+import com.hoanghiep.hust.entity.Part;
 import com.hoanghiep.hust.entity.Question;
 import com.hoanghiep.hust.entity.Result;
 import com.hoanghiep.hust.entity.ResultTest;
@@ -64,6 +65,11 @@ public class QuestionServiceImpl implements IQuestionService {
     @Override
     public void saveQuestion(Question question) {
         questionRepo.save(question);
+    }
+
+    @Override
+    public int getNumberOfQuestionOfPart(Part part) {
+        return questionRepo.findByPart(part).size();
     }
 
 }

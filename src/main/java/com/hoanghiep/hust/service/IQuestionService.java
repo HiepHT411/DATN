@@ -1,5 +1,6 @@
 package com.hoanghiep.hust.service;
 
+import com.hoanghiep.hust.entity.Part;
 import com.hoanghiep.hust.entity.Question;
 import com.hoanghiep.hust.entity.Result;
 import com.hoanghiep.hust.entity.ResultTest;
@@ -15,4 +16,6 @@ public interface IQuestionService {
     void saveUnitTestResult(ResultTest resultTest);
 
     void saveQuestion(Question question);
+
+    int getNumberOfQuestionOfPart(Part part);
 }

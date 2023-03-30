@@ -33,6 +33,9 @@ public class Part extends BaseModel {
     @NotNull(message = "Please, provide a description")
     private String description;
 
+    @Column(name = "numberOfQuestions")
+    private int numberOfQuestions;
+
     @OneToMany(mappedBy = "part", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Question> questions;
