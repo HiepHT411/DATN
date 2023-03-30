@@ -130,6 +130,6 @@ public class AudioController {
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
+        return "redirect:/uploaded/files/audio";
     }
 }

@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Test upload audio</title>
 </head>
 <body>
+<!-- Importing NavBar -->
+<div th:insert="navbar.html :: navbar"></div>
+<div class="container">
 <div th:if="${message}">
   <h2 th:text="${message}"/>
 </div>
 
+  <br/>
+  <h2>Upload new audio file: </h2>
 <div>
   <form method="POST" enctype="multipart/form-data" action="/part/audio">
     <table>
@@ -18,6 +27,8 @@
   </form>
 </div>
 
+  <br/>
+  <h2>Uploaded audio files: </h2>
 <div>
   <ul>
     <li th:each="file : ${files}">
@@ -25,5 +36,11 @@
     </li>
   </ul>
 </div>
+</div>
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
