@@ -9,6 +9,7 @@ import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
 import com.hoanghiep.hust.service.IUnitTestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,7 @@ public class AddQuestionController {
     private QuestionStackDirectionsRepository questionStackDirectionsRepository;
 
     @GetMapping("/selectUnitTestAndPart")
+    @PreAuthorize("hasRole('ADMIN')")
     public String selectUnitTestAndPart(Model model){
         model.addAttribute("unitTestOptions", unitTestService.getAllUnitTests(1, 10, "id", "desc").getContent());
         model.addAttribute("partOptions", Arrays.asList(1,2,3,4,5,6,7));
@@ -56,6 +58,7 @@ public class AddQuestionController {
     }
 
     @PostMapping("/unitTest/part")
+    @PreAuthorize("hasRole('ADMIN')")
     public String selectUnitTest(@ModelAttribute Chose chose, Model model){
         if (Objects.nonNull(partService.getPartByUnitTestIdAndPartNumber(chose.getUnitTestId(), chose.getPartNumber()))) {
             return "redirect:/addQuestion/unitTest/"+ chose.getUnitTestId()+"/part/"+chose.getPartNumber();
@@ -70,6 +73,7 @@ public class AddQuestionController {
 
 
     @GetMapping("/unitTest/{id}/part/{partNumber}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String addQuestion(Model model, HttpServletRequest request,@PathVariable Long id, @PathVariable int partNumber){
         submitted = false;
         UnitTest unitTest = unitTestService.getUnitTestById(id);
@@ -91,6 +95,7 @@ public class AddQuestionController {
     }
 
     @RequestMapping("/displayaddquestionform")
+    @PreAuthorize("hasRole('ADMIN')")
     public String displayAddQuestionForm(Model aModel, HttpServletRequest request) {
         Part part = (Part) request.getSession().getAttribute("part");
         // IF THIS PART IS DONE, RETURN THE RESULTS
@@ -108,6 +113,7 @@ public class AddQuestionController {
     }
 
     @PostMapping("/nextQuestion")
+    @PreAuthorize("hasRole('ADMIN')")
     public String nextQuestion(Model aModel, HttpServletRequest request, CreateQuestionDto questionDto, @RequestParam("image") MultipartFile file) throws IOException {
         UnitTest unitTest = (UnitTest) request.getSession().getAttribute("unitTest");
         Part part= (Part) request.getSession().getAttribute("part");

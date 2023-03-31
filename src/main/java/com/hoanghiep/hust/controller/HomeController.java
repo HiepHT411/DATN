@@ -110,6 +110,7 @@ public class HomeController {
     }
 
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String updatePart(@PathVariable("id") long id, @Valid Part part,
                              BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -229,13 +230,13 @@ public class HomeController {
     }
 
     @GetMapping(value = "/createPart")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     public String newPart(Map<String, Object> model) {
         return "createPart";
     }
 
     @PostMapping(value = "/createPart")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     public String newPart(@Valid CreatePartDto createPartDto, BindingResult result,
                           Map<String, Object> model) {
         Part newPart;

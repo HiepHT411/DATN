@@ -116,6 +116,7 @@ public class TestController {
 
 
     @GetMapping("/unitTest/{id}/part/{partNumber}")
+    @PreAuthorize("isAuthenticated()")
     public String getUnitTestById2(@PathVariable Long id, @PathVariable int partNumber,
                                    Model model,
                                    HttpServletRequest request) throws ParseException {
@@ -171,6 +172,7 @@ public class TestController {
     } // QUIZQUESTION(MODEL,HTTPSERVLETREQUEST,HTTPSERVLETRESPONSE)
 
     @RequestMapping("/nextPart")
+    @PreAuthorize("isAuthenticated()")
     public String nextPart(Model aModel, HttpServletRequest request, @ModelAttribute Part donePart) {
         ResultTest resultTest1 = (ResultTest) request.getSession().getAttribute("resultTest");
 
