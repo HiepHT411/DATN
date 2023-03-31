@@ -34,7 +34,7 @@ public class Part extends BaseModel {
     private String description;
 
     @Column(name = "numberOfQuestions")
-    private int numberOfQuestions;
+    private Integer numberOfQuestions;
 
     @OneToMany(mappedBy = "part", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
