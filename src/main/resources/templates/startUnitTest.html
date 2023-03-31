@@ -34,13 +34,12 @@
 
     <textarea name="partDirections" class="form-control" rows="8" >[[${directions}]]</textarea>
     <div>
-        <p>Click on the play button to play the audio:</p>
-        <audio controls>
+        <audio autoplay>
             <source th:src="@{/part/audio/{id}(id=${part.id})}" type="audio/mpeg">
             Your browse does not support audio element
         </audio>
     </div>
-    <form th:action="@{/nextPart}" method="POST" th:object=${part}>
+    <form id="part-form" th:action="@{/nextPart}" method="POST" th:object=${part}>
         <div class="ques-box bg-light text-dark" th:each="ques, i: ${part.questions}">
             <span th:text="${ques?.questionStackDirections?.title}"></span>
             <br>
@@ -128,8 +127,9 @@
             + '<span class="h1 font-weight-bold">%H</span> Hr'
             + '<span class="h1 font-weight-bold">%M</span> Min'
             + '<span class="h1 font-weight-bold">%S</span> Sec'));
-    }).on('finish.countdown', function(event) { //sự kiện lúc bộ đệm về 0, lúc này bộ đếm sẻ dừng lại.
-
+    }).on('finish.countdown', function(event) {
+        $(this).hide();
+        document.getElementById("part-form").submit();
   });
     </script>
 <!-- Bootstrap JS -->
