@@ -47,7 +47,7 @@
 				onsubmit="return validateRegistrationForm();">
 				<div>
 					<p th:each="error: ${#fields.errors('username')}"
-						th:text="${error}">Validation error</p>
+						th:text="${error}" th:style="'color: red;'">Validation error</p>
 					<label th:text="#{label.user.username}">username</label><br /> <input
 						th:field="*{username}" class="form-control" required="true"
 						autofocus="true" />

@@ -40,10 +40,13 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public User saveUser(User user) throws UserAlreadyExistsException {
 		if (userRepository.findByEmail(user.getEmail()) != null) {
-			log.error("The mail address" + user.getEmail() + " is already in use");
+			log.error("The email address" + user.getEmail() + " is already in use");
 			throw new UserAlreadyExistsException("The mail " + user.getEmail() + " is already in use");
 		}
-
+		if (userRepository.findByUsername(user.getUsername()) != null) {
+			log.error("The username " + user.getUsername() + " has been taken");
+			throw new UserAlreadyExistsException("The username " + user.getUsername() + " has been taken");
+		}
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setEnabled(false);
 

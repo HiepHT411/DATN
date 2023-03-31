@@ -54,7 +54,10 @@ public class RegistrationController {
 			mav.setViewName("registration");
 			return mav;
 		} catch (UserAlreadyExistsException e) {
-			result.rejectValue("email", "label.user.emailInUse");
+			if (e.getMessage().contains("username"))
+				result.rejectValue("username", "label.user.usernameTaken");
+			if (e.getMessage().contains("email"))
+				result.rejectValue("email", "label.user.emailInUse");
 			mav.setViewName("registration");
 			return mav;
 		}
