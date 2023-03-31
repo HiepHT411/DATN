@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -83,6 +84,7 @@ public class AudioController {
 
     @RequestMapping(value = "/part/audio/{partId}", method = RequestMethod.GET, produces = {
             MediaType.APPLICATION_OCTET_STREAM_VALUE })
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity getPPartAudioFie(HttpServletRequest request, HttpServletResponse response, @PathVariable("partId") Long partId) throws FileNotFoundException {
 
         Part part = partService.getPartById(partId);
@@ -104,6 +106,7 @@ public class AudioController {
     }
 
     @GetMapping("/uploaded/files/audio")
+    @PreAuthorize("hasRole('ADMIN')")
     public String listUploadedFiles(Model model) throws IOException {
 
         model.addAttribute("files", audioService.loadAll().map(
@@ -124,6 +127,7 @@ public class AudioController {
     }
 
     @PostMapping("/part/audio")
+    @PreAuthorize("hasRole('ADMIN')")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 
         audioService.store(file);

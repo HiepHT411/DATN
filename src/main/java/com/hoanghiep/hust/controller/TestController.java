@@ -116,6 +116,7 @@ public class TestController {
 
 
     @GetMapping("/unitTest/{id}/part/{partNumber}")
+    @PreAuthorize("isAuthenticated()")
     public String getUnitTestById2(@PathVariable Long id, @PathVariable int partNumber,
                                    Model model,
                                    HttpServletRequest request) throws ParseException {
@@ -146,8 +147,7 @@ public class TestController {
         mySession.setAttribute("part", parts.get(partNumber-1));
         mySession.setAttribute("resultTest", resultTest);
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, -1320);
-        calendar.add(Calendar.DATE, 1 );
+        calendar.add(Calendar.MINUTE, 120);
         Date endDate = calendar.getTime();
         mySession.setAttribute("endDate", endDate);
 //        mySession.setAttribute("endDate", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2023-02-27 02:00:10"));
@@ -164,13 +164,15 @@ public class TestController {
         aModel.addAttribute("unitTest", unitTest);
         // ADD COMPONENTS TO THE MODEL
         aModel.addAttribute("part", part);
-        aModel.addAttribute("directions", partDirectionsRepository.findById((long) part.getPartNumber()).get().getDirections());
+        String direction = partDirectionsRepository.findById((long) part.getPartNumber()).isPresent() ? partDirectionsRepository.findById((long) part.getPartNumber()).get().getDirections() : "";
+        aModel.addAttribute("directions", direction);
         Date endDate = (Date) request.getSession().getAttribute("endDate");
         aModel.addAttribute("endDate", endDate);
         return "startUnitTest";  // HTML TEMPLATE THAT DISPLAYS QUESTION DATA
     } // QUIZQUESTION(MODEL,HTTPSERVLETREQUEST,HTTPSERVLETRESPONSE)
 
     @RequestMapping("/nextPart")
+    @PreAuthorize("isAuthenticated()")
     public String nextPart(Model aModel, HttpServletRequest request, @ModelAttribute Part donePart) {
         ResultTest resultTest1 = (ResultTest) request.getSession().getAttribute("resultTest");
 
