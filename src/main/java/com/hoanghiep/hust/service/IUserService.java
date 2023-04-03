@@ -1,5 +1,6 @@
 package com.hoanghiep.hust.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.hoanghiep.hust.entity.User;
@@ -24,4 +25,7 @@ public interface IUserService extends UserDetailsService {
 
 	boolean isRegistrationCompleted(User user) throws ResourceUnavailableException;
 
+    Page<User> getAllUsers(int pageNo, int pageSize, String sortField, String sortDir);
+
+	User updateUser(User updatedUser);
 }

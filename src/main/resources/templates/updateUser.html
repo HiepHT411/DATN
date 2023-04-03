@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/quiz.css}">
+  <title>Test</title>
+  <link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.png}"/>
+</head>
+<body>
+
+<!-- Importing NavBar -->
+<div th:insert="navbar.html :: navbar"></div>
+
+<div class="container">
+
+  <div class="col-sm-2"></div>
+
+  <div class="col-sm-8">
+
+    <h2 th:text="#{label.newquiz.pagetitle}" class="form-signin-heading text-center">Update Profile</h2>
+    <br/>
+
+    <form name='updateUserForm' action='#' th:action="@{/user/update/{id}(id=${user.id})}" method='POST' th:object="${user}" onsubmit="return validateUpdateUserForm();">
+      <div class="form-group">
+        <label>User Level: </label>
+        <input th:placeholder="${user.userLevel}" name="userLevel" class="form-control"/>
+        <br/>
+        <label>New password: </label>
+        <input
+                th:field="*{password}" type="password" class="form-control"/>
+        <br/>
+        <label>Confirm new password: </label>
+        <input
+                name="repeatPassword" type="password" class="form-control"/>
+        <br/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+      </div>
+    </form>
+
+  </div>
+
+  <div class="col-sm-2"></div>
+</div>
+
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+
+<script>
+		function validateUpdateUserForm() {
+			password = document.forms["updateUserForm"]["password"].value;
+			repeatPassword = document.forms["updateUserForm"]["repeatPassword"].value;
+
+			if (password != repeatPassword) {
+				alert("Passwords don't match!");
+				return false;
+			}
+
+			return true;
+		}
+	</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
