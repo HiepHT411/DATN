@@ -115,16 +115,20 @@
 
 <!-- Importing Footer -->
 <div th:insert="footer.html :: footer"></div>
-<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<!--<script th:src="@{/webjars/jquery/jquery.min.js}"></script>-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{/assets/jquery-countdown/jquery.countdown.min.js}"></script>
-
+<!--<script th:src="@{/assets/jquery-countdown/jquery.countdown.min.js}"></script>-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment-with-locales.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.4.0/moment-timezone-with-data-2010-2020.min.js"></script>
 <script th:inline="javascript">
     var endDate = [[${#calendars.format(endDate,'yyyy/MM/dd hh:mm:ss')}]];
-
+<!--    var endDate = moment.tz(endDate, "America/Detroit");-->
     $('#clock').countdown(endDate).on('update.countdown', function (event) {
         var $this = $(this).html(event.strftime(''
+            + '<span class="h1 font-weight-bold">%d</span> Days'
             + '<span class="h1 font-weight-bold">%H</span> Hr'
             + '<span class="h1 font-weight-bold">%M</span> Min'
             + '<span class="h1 font-weight-bold">%S</span> Sec'));

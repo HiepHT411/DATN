@@ -147,7 +147,11 @@ public class TestController {
         mySession.setAttribute("part", parts.get(partNumber-1));
         mySession.setAttribute("resultTest", resultTest);
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
         calendar.add(Calendar.MINUTE, 120);
+        if(calendar.get(Calendar.AM_PM) == Calendar.PM) {
+            calendar.add(Calendar.HOUR, 12);
+        }
         Date endDate = calendar.getTime();
         mySession.setAttribute("endDate", endDate);
 //        mySession.setAttribute("endDate", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2023-02-27 02:00:10"));
