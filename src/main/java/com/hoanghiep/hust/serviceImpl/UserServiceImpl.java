@@ -1,10 +1,15 @@
 package com.hoanghiep.hust.serviceImpl;
 
 import java.security.InvalidParameterException;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -110,6 +115,27 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public boolean isRegistrationCompleted(User user) {
 		return user.isEnabled();
+	}
+
+	@Override
+	public Page<User> getAllUsers(int pageNo, int pageSize, String sortField, String sortDir) {
+		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+				Sort.by(sortField).descending();
+
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+		return userRepository.findAll(pageable);
+	}
+
+	@Override
+	public User updateUser(User updatedUserDto) {
+		User userToBeUpdated = find(updatedUserDto.getId());
+		if (Objects.nonNull(updatedUserDto.getUserLevel())) {
+			userToBeUpdated.setUserLevel(updatedUserDto.getUserLevel());
+		}
+		if (Objects.nonNull(updatedUserDto.getPassword())) {
+			userToBeUpdated.setPassword(passwordEncoder.encode(updatedUserDto.getPassword()));
+		}
+		return userRepository.save(userToBeUpdated);
 	}
 
 	@Override

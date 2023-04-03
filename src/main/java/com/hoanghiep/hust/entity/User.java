@@ -1,9 +1,8 @@
 package com.hoanghiep.hust.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -49,12 +48,15 @@ public class User extends BaseModel implements UserOwned, Serializable {
 	private boolean enabled;
 
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
-	private Calendar createdDate;
+	private Date createdDate;
 
 	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
 	@Enumerated(EnumType.STRING)
 	private List<Role> roles;
+
+	@Column(name = "user_level")
+	private Integer userLevel;
 
 	@Override
 	@JsonIgnore
