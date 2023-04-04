@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -149,7 +151,7 @@ public class TestController {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
         calendar.add(Calendar.MINUTE, 120);
-        if(calendar.get(Calendar.AM_PM) == Calendar.PM) {
+        if(calendar.get(Calendar.AM_PM) == Calendar.AM) {
             calendar.add(Calendar.HOUR, 12);
         }
         Date endDate = calendar.getTime();
@@ -217,8 +219,10 @@ public class TestController {
             return this.displayquestion(aModel,request);
         } // IF(NOT DONE)
         resultTest1.setTotalPoint(resultTest1.getPart1Point()+resultTest1.getPart2Point()+resultTest1.getPart3Point()+resultTest1.getPart4Point()+resultTest1.getPart5Point()+resultTest1.getPart6Point()+resultTest1.getPart7Point());
-        Date date = new Date();
-        resultTest1.setDateTime(date.toString());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formatDateTime = now.format(format);
+        resultTest1.setDateTime(formatDateTime);
         aModel.addAttribute("resultTest", resultTest1);
         resultTestRepository.save(resultTest1);
         submitted = true;

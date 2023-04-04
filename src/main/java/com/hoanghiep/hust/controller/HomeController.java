@@ -170,8 +170,6 @@ public class HomeController {
             result.setPartNumber(partInfo.getPartNumber());
             result.setTotalCorrect(questionService.getResult(submitPart.getQuestions()));
             result.setUsername(username);
-            Date date = new Date();
-            result.setDateTime(date.toString());
             questionService.saveScore(result);
             submitted = true;
         }
