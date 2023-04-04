@@ -1,0 +1,62 @@
+variables:
+  DOCKER_DRIVER: overlay
+  MYSQL_DATABASE: hust_elearning_english
+  MYSQL_ROOT_PASSWORD: password
+  BRANCH: ${CI_COMMIT_REF_NAME}
+
+stages:
+  - build
+  - build-docker-image
+  - push-image-to-gitlab-registry
+  - test
+  - deploy
+
+maven-build:
+  image: maven:3-jdk-11
+  stage: build
+  tags:
+    - java
+  services:
+    - mysql:5.7
+  script:
+    - mvn package -B
+  artifacts:
+    paths:
+      - target/*.jar
+
+docker-build:
+  stage: build-docker-image
+  script:
+    - docker info
+    - docker build -t java-next-generation/finalproject .
+
+push-image-to-gitLab-registry:
+  stage: push-image-to-gitlab-registry
+  before_script:
+    - docker login registry.savvycom.vn -u "$CI_REGISTRY_USER" -p "$CI_GITLAB_TOKEN"
+  script:
+    - docker info
+    - docker tag java-next-generation/hieplaboratory registry.savvycom.vn/java-next-generation/hieplaboratory
+    - docker push registry.savvycom.vn/java-next-generation/hieplaboratory
+
+test:
+  script:
+    - mvn verify
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+        - target/failsafe-reports/TEST-*.xml
+
+deploy:
+  stage: deploy
+  tags:
+    - java
+  script:
+    - docker login registry.savvycom.vn -u "$CI_REGISTRY_USER" -p "$CI_GITLAB_TOKEN"
+    - docker pull registry.savvycom.vn/java-next-generation/hieplaboratory
+    - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
+    - docker run --name=$BRANCH -p 8080:8080 -itd registry.savvycom.vn/java-next-generation/hieplaboratory
+  only:
+    - master

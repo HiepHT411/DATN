@@ -27,10 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -148,7 +145,8 @@ public class HomeController {
         partDto.setYear(part.getUnitTest().getYear());
         partDto.setUnitTestNumber(part.getUnitTest().getUnitTestNumber());
         model.addAttribute("part", partDto);
-        model.addAttribute("directions", partDirectionsRepository.findById((long) part.getPartNumber()).get().getDirections());
+        String direction = partDirectionsRepository.findById((long) part.getPartNumber()).isPresent() ? partDirectionsRepository.findById((long) part.getPartNumber()).get().getDirections() : "";
+        model.addAttribute("directions", direction);
 
 
         return "startPart";
@@ -172,6 +170,8 @@ public class HomeController {
             result.setPartNumber(partInfo.getPartNumber());
             result.setTotalCorrect(questionService.getResult(submitPart.getQuestions()));
             result.setUsername(username);
+            Date date = new Date();
+            result.setDateTime(date.toString());
             questionService.saveScore(result);
             submitted = true;
         }

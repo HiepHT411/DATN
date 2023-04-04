@@ -217,6 +217,8 @@ public class TestController {
             return this.displayquestion(aModel,request);
         } // IF(NOT DONE)
         resultTest1.setTotalPoint(resultTest1.getPart1Point()+resultTest1.getPart2Point()+resultTest1.getPart3Point()+resultTest1.getPart4Point()+resultTest1.getPart5Point()+resultTest1.getPart6Point()+resultTest1.getPart7Point());
+        Date date = new Date();
+        resultTest1.setDateTime(date.toString());
         aModel.addAttribute("resultTest", resultTest1);
         resultTestRepository.save(resultTest1);
         submitted = true;
