@@ -78,6 +78,7 @@ footer {
 	line-height: 65px;
 	background: #FFD700;
 	flex-direction: column;
+	background-color: #6237A0;
 }
 
 .text-gold {
@@ -86,4 +87,5 @@ footer {
 
 nav .navbar-nav li a{
   color: #FFD700 !important;
+  background-color: #6237A0;
 }

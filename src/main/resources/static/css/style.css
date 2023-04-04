@@ -42,8 +42,8 @@
 }
 
 .cta_second{
-    border: 2px solid #4c9900;
-    background:  #4c9900;
+    border: 2px solid #6237A0;
+    background:  #6237A0;
     color: white;
     width: 150px;
     height: 50px;
@@ -60,4 +60,12 @@
     z-index: -1;
     opacity: 0.1;
 
+}
+
+.navbar {
+    background-color: #6237A0;
+}
+
+.footer {
+    background-color: #6237A0;
 }
