@@ -45,7 +45,7 @@ public class UnitTest extends BaseModel{
 //    @JoinColumn(name = "part_7", referencedColumnName = "id", nullable = false)
 //    private Part part7;
 
-    @OneToMany(mappedBy = "unitTest")
+    @OneToMany(mappedBy = "unitTest", cascade = CascadeType.ALL)
     private List<Part> parts;
 
     private String year;

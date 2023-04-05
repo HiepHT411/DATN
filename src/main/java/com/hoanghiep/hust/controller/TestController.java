@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -151,7 +153,7 @@ public class TestController {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
         calendar.add(Calendar.MINUTE, 120);
-        if(calendar.get(Calendar.AM_PM) == Calendar.AM) {
+        if(calendar.get(Calendar.AM_PM) == Calendar.PM) {
             calendar.add(Calendar.HOUR, 12);
         }
         Date endDate = calendar.getTime();
@@ -285,6 +287,34 @@ public class TestController {
 ////        m.addAttribute("result", result);
 //        return "resultTest.html";
 //    }
+
+    @GetMapping("/deleteUnitTest/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteUnitTest(@PathVariable(value = "id") long id) {
+
+        this.unitTestService.deleteUnitTestById(id);
+        return "redirect:/examList";
+    }
+
+    @GetMapping("/showFormForUpdateUnitTest/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String showFormForUpdateUnitTest(@PathVariable(value = "id") long id, Model model) {
+        UnitTest unitTest = unitTestService.getUnitTestById(id);
+        model.addAttribute("unitTest", unitTest);
+        return "updateUnitTest";
+    }
+
+    @PostMapping("/updateUnitTest/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String updateUnitTest(@PathVariable("id") long id, @Valid UnitTest unitTest,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            unitTest.setId(id);
+            return "updateUnitTest";
+        }
+        unitTestService.updateUnitTest(id, unitTest);
+        return "redirect:/examList";
+    }
 
     @GetMapping("/error")
     public String error(Model aModel, HttpServletRequest request, String errorMessage) {

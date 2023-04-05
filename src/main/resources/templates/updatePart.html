@@ -7,6 +7,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/quiz.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Test</title>
     <link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.png}"/>
 </head>
@@ -21,7 +23,7 @@
 
     <div class="col-sm-8">
 
-        <h2 th:text="#{label.newquiz.pagetitle}" class="form-signin-heading text-center">Update Part</h2>
+        <h2 class="form-signin-heading text-center">Update Part</h2>
         <br/>
 
         <form name='f' action='#' th:action="@{/update/{id}(id=${part.id})}" method='POST' th:object="${part}" class="form-signin">

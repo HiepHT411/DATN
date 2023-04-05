@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -31,5 +32,26 @@ public class UnitTestServiceImpl implements IUnitTestService {
     @Override
     public UnitTest getUnitTestById(Long id) {
         return unitTestRepository.findById(id).orElseThrow(()-> new ResourceUnavailableException("unit test not found by id "+id));
+    }
+
+    @Override
+    public void deleteUnitTestById(long id) {
+        unitTestRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateUnitTest(long id, UnitTest unitTest) {
+        UnitTest unitTestToUpDate = getUnitTestById(id);
+        if (Objects.nonNull(unitTest.getYear())) {
+            unitTestToUpDate.setYear(unitTest.getYear());
+        }
+        if (Objects.nonNull(unitTest.getUnitTestNumber())) {
+            unitTestToUpDate.setUnitTestNumber(unitTest.getUnitTestNumber());
+        }
+        if (Objects.nonNull(unitTest.getDescription())) {
+            unitTestToUpDate.setDescription(unitTest.getDescription());
+        }
+
+        unitTestRepository.save(unitTestToUpDate);
     }
 }
