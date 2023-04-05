@@ -31,7 +31,8 @@
             <div class="col-lg-8 mt-5">
                 <div class="rounded bg-gradient text-dark shadow p-5 text-center mb-5">
                     <p class="mb-0 font-weight-bold text-uppercase">Time left: </p>
-                    <div id="clock" class="countdown pt-4"></div>
+                    <div class="countdown pt-4"><p id="democountdown"></p></div>
+<!--                    <div id="clock" class="countdown pt-4"></div>-->
                 </div>
             </div>
     </div>
@@ -129,19 +130,51 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment-with-locales.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.4.0/moment-timezone-with-data-2010-2020.min.js"></script>
 <script th:inline="javascript">
-    var endDate = [[${#calendars.format(endDate,'yyyy/MM/dd hh:mm:ss')}]];
+<!--    var endDate = [[${#calendars.format(endDate,'yyyy/MM/dd hh:mm:ss')}]];-->
 <!--    var endDate = moment.tz(endDate, "America/Detroit");-->
-    $('#clock').countdown(endDate).on('update.countdown', function (event) {
-        var $this = $(this).html(event.strftime(''
-            + '<span class="h1 font-weight-bold">%d</span> Days'
-            + '<span class="h1 font-weight-bold">%H</span> Hr'
-            + '<span class="h1 font-weight-bold">%M</span> Min'
-            + '<span class="h1 font-weight-bold">%S</span> Sec'));
-    }).on('finish.countdown', function(event) {
-        $(this).hide();
-        document.getElementById("part-form").submit();
-  });
+<!--    $('#clock').countdown(endDate).on('update.countdown', function (event) {-->
+<!--        var $this = $(this).html(event.strftime(''-->
+<!--            + '<span class="h1 font-weight-bold">%d</span> Days'-->
+<!--            + '<span class="h1 font-weight-bold">%H</span> Hr'-->
+<!--            + '<span class="h1 font-weight-bold">%M</span> Min'-->
+<!--            + '<span class="h1 font-weight-bold">%S</span> Sec'));-->
+<!--    }).on('finish.countdown', function(event) {-->
+<!--        $(this).hide();-->
+<!--        document.getElementById("part-form").submit();-->
+<!--  });-->
     </script>
+
+<script th:inline="javascript">
+// Set the date we're counting down to
+var countDownDate = new Date([[${endDate}]]).getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("democountdown").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("democountdown").innerHTML = "Time's up";
+    document.getElementById("part-form").submit();
+  }
+}, 1000);
+</script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

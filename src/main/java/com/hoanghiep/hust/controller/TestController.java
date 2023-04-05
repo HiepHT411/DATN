@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -150,13 +151,21 @@ public class TestController {
 
         mySession.setAttribute("part", parts.get(partNumber-1));
         mySession.setAttribute("resultTest", resultTest);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        calendar.add(Calendar.MINUTE, 120);
-        if(calendar.get(Calendar.AM_PM) == Calendar.PM) {
-            calendar.add(Calendar.HOUR, 12);
-        }
-        Date endDate = calendar.getTime();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+//            calendar.add(Calendar.HOUR, 12);
+//        }
+//        calendar.add(Calendar.HOUR_OF_DAY, 2);
+//        if(calendar.get(Calendar.AM_PM) == Calendar.PM && calendar.get(Calendar.HOUR_OF_DAY) >= 22) {
+//            calendar.add(Calendar.HOUR_OF_DAY, 12);
+//        }
+//        Date endDate = calendar.getTime();
+
+        Date endDate1 = new Date();
+        Date endDate2 = Date.from(endDate1.toInstant().plus(Duration.ofMinutes(120)));
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss"); //EEE, d MMM yyyy HH:mm:ss
+        String endDate = sdf.format(endDate2);
         mySession.setAttribute("endDate", endDate);
 //        mySession.setAttribute("endDate", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2023-02-27 02:00:10"));
         return this.displayquestion(model,request);
@@ -164,7 +173,7 @@ public class TestController {
 
 
     @RequestMapping("/displayquestion")
-    public String displayquestion(Model aModel, HttpServletRequest request) {
+    public String displayquestion(Model aModel, HttpServletRequest request) throws ParseException {
         Part part = (Part) request.getSession().getAttribute("part");
         // IF THIS PART IS DONE, RETURN THE RESULTS
         UnitTest unitTest = part.getUnitTest();
@@ -174,14 +183,15 @@ public class TestController {
         aModel.addAttribute("part", part);
         String direction = partDirectionsRepository.findById((long) part.getPartNumber()).isPresent() ? partDirectionsRepository.findById((long) part.getPartNumber()).get().getDirections() : "";
         aModel.addAttribute("directions", direction);
-        Date endDate = (Date) request.getSession().getAttribute("endDate");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+        Date endDate = sdf.parse(request.getSession().getAttribute("endDate").toString());
         aModel.addAttribute("endDate", endDate);
         return "startUnitTest";  // HTML TEMPLATE THAT DISPLAYS QUESTION DATA
     } // QUIZQUESTION(MODEL,HTTPSERVLETREQUEST,HTTPSERVLETRESPONSE)
 
     @RequestMapping("/nextPart")
     @PreAuthorize("isAuthenticated()")
-    public String nextPart(Model aModel, HttpServletRequest request, @ModelAttribute Part donePart) {
+    public String nextPart(Model aModel, HttpServletRequest request, @ModelAttribute Part donePart) throws ParseException {
         ResultTest resultTest1 = (ResultTest) request.getSession().getAttribute("resultTest");
 
 //        Part part= (Part) request.getSession().getAttribute("part");
@@ -287,34 +297,6 @@ public class TestController {
 ////        m.addAttribute("result", result);
 //        return "resultTest.html";
 //    }
-
-    @GetMapping("/deleteUnitTest/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String deleteUnitTest(@PathVariable(value = "id") long id) {
-
-        this.unitTestService.deleteUnitTestById(id);
-        return "redirect:/examList";
-    }
-
-    @GetMapping("/showFormForUpdateUnitTest/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String showFormForUpdateUnitTest(@PathVariable(value = "id") long id, Model model) {
-        UnitTest unitTest = unitTestService.getUnitTestById(id);
-        model.addAttribute("unitTest", unitTest);
-        return "updateUnitTest";
-    }
-
-    @PostMapping("/updateUnitTest/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String updateUnitTest(@PathVariable("id") long id, @Valid UnitTest unitTest,
-                             BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            unitTest.setId(id);
-            return "updateUnitTest";
-        }
-        unitTestService.updateUnitTest(id, unitTest);
-        return "redirect:/examList";
-    }
 
     @GetMapping("/error")
     public String error(Model aModel, HttpServletRequest request, String errorMessage) {
