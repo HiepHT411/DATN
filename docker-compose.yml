@@ -18,10 +18,11 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mysqldb
-    restart: on-failure
-    env_file: ./.env
+    restart: "no"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3307/hust_elearning_english?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
     ports:
-      - "8080:8081"
+      - "8080:8080"
     networks:
       springboot-mysql-net:
 

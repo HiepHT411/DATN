@@ -10,4 +10,8 @@ public interface IUnitTestService {
     Page<UnitTest> getAllUnitTests(int pageNo, int pageSize, String sortField, String sortDir);
 
     UnitTest getUnitTestById(Long id);
+
+    void deleteUnitTestById(long id);
+
+    void updateUnitTest(long id, UnitTest unitTest);
 }
