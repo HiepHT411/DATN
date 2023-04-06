@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/quiz.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Test upload audio</title>
+    <link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.png}"/>
+</head>
+<body>
+<!-- Importing NavBar -->
+<div th:insert="navbar.html :: navbar"></div>
+<div class="container">
+    <div th:if="${message}">
+        <h2 th:text="${message}"/>
+    </div>
+
+    <br/>
+    <h2>Upload csv file to import: </h2>
+    <br/>
+    <br/>
+    <div>
+        <form method="POST" enctype="multipart/form-data" action="/import/csvfile">
+            <table>
+                <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+
+                <tr><td></td>
+                    <td><input type="submit" value="Import" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <br/>
+</div>
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
