@@ -37,9 +37,9 @@
 		        <p th:if="${loginError}" th:text="#{label.signin.errorrmessage}" class="error" th:style="'color: red;'">Wrong user or password</p>
 		        
 		        <div class="checkbox">
-		          <label>
-		            <input th:text="#{label.signin.rememberme}" type="checkbox" name="remember-me"></input>
-		          </label>
+
+		            <input type="checkbox" name="remember-me" style="float: left;"></input>
+					<div style="float: left; margin-left: 6px; margin-top: 4.9px;">Remember me</div>
 		        </div>
 		        
 		        <button th:text="#{label.signin.submit}" class="btn btn-lg cta_second btn-block" type="submit">Sign in</button>

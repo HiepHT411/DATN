@@ -29,17 +29,17 @@
 
     <div class="col-sm-8">
     <p class="text-center">Hust toeic online</p>
-    <div class="text-center" sec:authorize="hasRole('USER')">Text visible to user.</div>
-    <div class="text-center" sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+    <div class="text-center" sec:authorize="hasRole('USER')">Have a good day!</div>
+    <div class="text-center" sec:authorize="hasRole('ADMIN')">You are admin.</div>
 
-<h3 >Authenticated username:</h3>
-<div sec:authentication="name"></div>
-<h3>Authenticated user's email:</h3>
-<div th:text="${user.email}"></div>
-<h3>User level:</h3>
-<div th:text="${user.userLevel}"></div>
-<h3>Authenticated user roles:</h3>
-<div sec:authentication="principal.authorities"></div>
+<h3 >Username: [[${user.username}]]</h3>
+<!--<div sec:authentication="name"></div>-->
+<h3>User's email: [[${user.email}]]</h3>
+<!--<div th:text="$"></div>-->
+<h3>User level: [[${user.userLevel}]]</h3>
+<!--<div th:text=""></div>-->
+<!--<h3>Authenticated user roles:</h3>-->
+<!--<div sec:authentication="principal.authorities"></div>-->
 <br/>
 <br/>
 <div sec:authorize="isAuthenticated()" class="text-center">

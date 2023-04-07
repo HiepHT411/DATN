@@ -18,13 +18,15 @@ h1 {
 }
 
 h2 {
+    padding: 15px 25px;
 	border-radius: 10px;
 	background-color: #A37CF0;
 }
 
 h3 {
+    padding: 15px 25px;
     border-radius: 10px;
-    background-color: #9754CB;
+    background-color: #A37CF0;
 }
 
 .ques-box {
