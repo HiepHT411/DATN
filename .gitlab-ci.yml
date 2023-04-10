@@ -12,7 +12,7 @@ maven-build:
   image:  maven:3.6.1-jdk-11-slim
   stage: build
   tags:
-    - runner-local-shell
+    - ryan-ec2-ubuntu
   script:
     - echo "Building app..."
     - mvn clean install
@@ -38,7 +38,7 @@ deploy:
   stage: deploy
   image: alpine:3.11
   tags:
-    - runner-local-shell
+    - ryan-ec2-ubuntu
   before_script:
     - apk update && apk add openssh-client bash
     - mkdir -p ~/.ssh
