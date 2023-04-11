@@ -5,7 +5,6 @@ variables:
 
 stages:
   - build
-  - test
   - deploy
 
 maven-build:
@@ -26,22 +25,13 @@ maven-build:
 
 deploy:
   stage: deploy
-  image: alpine:3.11
+  image: ubuntu:20.04
   tags:
     - ryan-ec2-ubuntu
-  before_script:
-    - apk update && apk add openssh-client bash
-    - mkdir -p ~/.ssh
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - touch ~/.ssh/config
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - ssh-keyscan -H $DEPLOY_SERVER_IP >> ~/.ssh/known_hosts
   script:
-    - echo "Deploying started..."
-    - ssh ubuntu@$DEPLOY_SERVER_IP "sudo systemctl stop consoleapp.service"
-    - scp ./target/*.jar ubuntu@$DEPLOY_SERVER_IP:~/console-app/
-    - ssh ubuntu@$DEPLOY_SERVER_IP "sudo systemctl start consoleapp.service"
-    - echo "Finished deploying the app."
+    - sudo bash deploy.sh
   only:
     - master
+  dependencies:
+    - maven-build
+
