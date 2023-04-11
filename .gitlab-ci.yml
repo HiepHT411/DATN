@@ -29,7 +29,6 @@ deploy:
   tags:
     - ryan-ec2-ubuntu
   script:
-    - sudo su gitlab-runner
     - sudo bash deploy.sh
   only:
     - master
