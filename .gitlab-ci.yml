@@ -29,7 +29,7 @@ deploy:
   tags:
     - ryan-ec2-ubuntu
   script:
-    - bash deploy.sh
+    - nohup java -jar /target/*.jar &
   only:
     - master
   dependencies:
