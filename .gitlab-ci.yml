@@ -29,7 +29,7 @@ deploy:
   tags:
     - ryan-ec2-ubuntu
   script:
-    - sudo bash deploy.sh
+    - bash deploy.sh
   only:
     - master
   dependencies:
