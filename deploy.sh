@@ -1,1 +1,1 @@
-nohup java -jar target/*.jar & > delpoytoeicapp.txt
+java -jar target/*.jar &

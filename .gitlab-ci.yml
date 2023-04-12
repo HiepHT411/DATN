@@ -29,7 +29,7 @@ deploy:
   tags:
     - ryan-ec2-ubuntu
   script:
-    - bash deploy.sh
+    - nohup ./deploy.sh
   only:
     - master
   dependencies:
