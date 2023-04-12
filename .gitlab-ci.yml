@@ -29,7 +29,8 @@ deploy:
   tags:
     - ryan-ec2-ubuntu
   script:
-    - nohup ./deploy.sh
+    - chmod +x deploy.sh
+    - nohup ./deploy.sh > logtoeicapp.txt
   only:
     - master
   dependencies:
