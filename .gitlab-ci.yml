@@ -28,9 +28,20 @@ deploy:
   image: ubuntu:20.04
   tags:
     - ryan-ec2-ubuntu
+  before_script:
+    - apk update && apk add openssh-client bash
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - touch ~/.ssh/config
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - ssh-keyscan -H $DEPLOY_SERVER_IP >> ~/.ssh/known_hosts
   script:
-    - chmod +x deploy.sh
-    - nohup ./deploy.sh > logtoeicapp.txt
+    - echo "Deploying started..."
+    - ssh $DEPLOY_SERVER_HOST "sudo systemctl stop consoleapp.service"
+    - scp ./target/consoleapp.jar $DEPLOY_SERVER_HOST:~/console-app/
+    - ssh $DEPLOY_SERVER_HOST "sudo systemctl start consoleapp.service"
+    - echo "Finished deploying the app."
   only:
     - master
   dependencies:
