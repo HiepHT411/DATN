@@ -13,10 +13,10 @@ public class HustElearningEnglishApplication {
 		SpringApplication.run(HustElearningEnglishApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner init(IAudioService audioService) {
-		return (args) -> {
-			audioService.init();
-		};
-	}
+//	@Bean
+//	CommandLineRunner init(IAudioService audioService) {
+//		return (args) -> {
+//			audioService.init();
+//		};
+//	}
 }
