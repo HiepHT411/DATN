@@ -5,6 +5,7 @@ variables:
 
 stages:
   - build
+  - test
   - deploy
 
 maven-build:
@@ -22,6 +23,19 @@ maven-build:
       - target/*.jar
   only:
     - master
+
+test:
+  stage: test
+  tags:
+    - ryan-ec2-ubuntu
+  script:
+    - mvn verify
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+        - target/failsafe-reports/TEST-*.xml
 
 deploy:
   stage: deploy
