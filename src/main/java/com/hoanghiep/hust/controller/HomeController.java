@@ -6,25 +6,19 @@ import com.hoanghiep.hust.entity.*;
 import com.hoanghiep.hust.exception.ModelVerificationException;
 import com.hoanghiep.hust.repository.PartDirectionsRepository;
 import com.hoanghiep.hust.repository.PartRepo;
-import com.hoanghiep.hust.security.AuthenticatedUser;
-import com.hoanghiep.hust.service.IPartService;
-import com.hoanghiep.hust.service.IQuestionService;
-import com.hoanghiep.hust.service.IResultService;
-import com.hoanghiep.hust.service.IUnitTestService;
+import com.hoanghiep.hust.service.*;
 import com.hoanghiep.hust.utility.CommonMapper;
 import com.hoanghiep.hust.utility.VerifierUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -57,7 +51,6 @@ public class HomeController {
 
     @Autowired
     private PartDirectionsRepository partDirectionsRepository;
-
     @GetMapping("/")
     public String main() {
         return "home";
@@ -67,7 +60,6 @@ public class HomeController {
     public String home() {
         return "home";
     }
-
     @GetMapping("/partList")
     @PreAuthorize("isAuthenticated()")
     public String getUnitTest(Model model, @RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
@@ -235,7 +227,7 @@ public class HomeController {
 
     @PostMapping(value = "/createPart")
     @PreAuthorize("hasRole('ADMIN')")
-    public String newPart(@Valid CreatePartDto createPartDto, BindingResult result,
+    public String newPart(@Valid CreatePartDto createPartDto, @RequestParam("audio") MultipartFile audio, BindingResult result,
                           Map<String, Object> model) {
         Part newPart;
 
@@ -248,11 +240,10 @@ public class HomeController {
             } else {
                 username = principal.toString();
             }
-            newPart = partService.createPart(createPartDto, username);
+            newPart = partService.createPart(createPartDto, username, audio);
         } catch (ModelVerificationException e) {
             return "createPart";
         }
-
            return "home";
 //        return "redirect:/editPart/" + newPart.getId();
     }

@@ -51,4 +51,7 @@ public class Part extends BaseModel {
     @ManyToOne
     @JoinColumn(name = "unit_test_id", referencedColumnName = "id", nullable = false)
     private UnitTest unitTest;
+
+    @Column(name = "audio")
+    private String audio;
 }

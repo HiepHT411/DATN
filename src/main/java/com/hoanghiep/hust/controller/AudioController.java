@@ -84,17 +84,22 @@ public class AudioController {
 
     @RequestMapping(value = "/part/audio/{partId}", method = RequestMethod.GET, produces = {
             MediaType.APPLICATION_OCTET_STREAM_VALUE })
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity getPPartAudioFie(HttpServletRequest request, HttpServletResponse response, @PathVariable("partId") Long partId) throws FileNotFoundException {
 
         Part part = partService.getPartById(partId);
         UnitTest unitTest = part.getUnitTest();
-        String file = "src\\main\\resources\\static\\audios/";
+//        String file = "src\\main\\resources\\static\\audios/";
+        String file = "src\\main\\resources\\static";
 //        if (partId == 40) {
 //            file += "test-audio.mp3";
 //        }
         if (Objects.nonNull(part) && Objects.nonNull(unitTest)) {
-            file += unitTest.getYear() + "-TEST" + unitTest.getUnitTestNumber() + "-PART" + part.getPartNumber() + ".mp3";
+            if (Objects.nonNull(part.getAudio())) {
+                file += part.getAudio();
+            } else {
+                file += "\\audios/" + unitTest.getYear() + "-TEST" + unitTest.getUnitTestNumber() + "-PART" + part.getPartNumber() + ".mp3";
+            }
         }
         long length = new File(file).length();
 

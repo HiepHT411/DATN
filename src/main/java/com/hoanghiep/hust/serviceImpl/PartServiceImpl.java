@@ -10,12 +10,17 @@ import com.hoanghiep.hust.repository.PartRepo;
 import com.hoanghiep.hust.repository.QuestionRepo;
 import com.hoanghiep.hust.repository.UnitTestRepository;
 import com.hoanghiep.hust.repository.UserRepository;
+import com.hoanghiep.hust.service.IAudioService;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.utility.CommonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +44,9 @@ public class PartServiceImpl implements IPartService {
 
     @Autowired
     private CommonMapper commonMapper;
+
+    @Autowired
+    private IAudioService audioService;
 
     @Override
     public Page<Part> getAllParts(int pageNo, int pageSize, String sortField, String sortDir) {
@@ -91,6 +99,17 @@ public class PartServiceImpl implements IPartService {
         part.setNumberOfQuestions(createPartDto.getNumberOfQuestions());
 
         return this.partRepo.save(part);
+    }
+
+    public Part createPart(CreatePartDto createPartDto, String username, MultipartFile audio) {
+        Part newPart = this.createPart(createPartDto, username);
+        if (Objects.nonNull(audio) && !audio.isEmpty()) {
+            StringBuilder fileNames = new StringBuilder();
+            audioService.store(audio);
+            fileNames.append(audio.getOriginalFilename());
+            newPart.setAudio("/audios/"+fileNames);
+        }
+        return partRepo.save(newPart);
     }
 
     @Override

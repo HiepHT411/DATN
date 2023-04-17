@@ -5,6 +5,7 @@ import com.hoanghiep.hust.dto.PartDto;
 import com.hoanghiep.hust.entity.Part;
 import com.hoanghiep.hust.entity.User;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface IPartService {
     void deletePartById(Long id);
 
     Part createPart(CreatePartDto createPartDto, String user);
+
+    Part createPart(CreatePartDto createPartDto, String user, MultipartFile audio);
 
     List<Part> getPartByUnitTestId(Long unitTestId);
 
