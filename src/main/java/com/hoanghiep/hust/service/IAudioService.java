@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public interface IAudioService {
 
-    void init();
+//    void init();
 
     void store(MultipartFile file);
 
