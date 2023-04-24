@@ -46,7 +46,7 @@ public class UserServiceImpl implements IUserService {
 	public User saveUser(User user) throws UserAlreadyExistsException {
 		if (userRepository.findByEmail(user.getEmail()) != null) {
 			log.error("The email address" + user.getEmail() + " is already in use");
-			throw new UserAlreadyExistsException("The mail " + user.getEmail() + " is already in use");
+			throw new UserAlreadyExistsException("The email address " + user.getEmail() + " is already in use");
 		}
 		if (userRepository.findByUsername(user.getUsername()) != null) {
 			log.error("The username " + user.getUsername() + " has been taken");
