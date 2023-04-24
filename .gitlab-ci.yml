@@ -36,6 +36,8 @@ test:
       junit:
         - target/surefire-reports/TEST-*.xml
         - target/failsafe-reports/TEST-*.xml
+  only:
+    - main
 
 deploy:
   stage: deploy

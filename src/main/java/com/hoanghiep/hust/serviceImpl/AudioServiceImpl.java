@@ -39,18 +39,22 @@ public class AudioServiceImpl implements IAudioService {
             if (file.isEmpty()) {
                 throw new AudioException("Failed to store empty file.");
             }
-            Path destinationFile = this.rootLocation.resolve(
-                            Paths.get(file.getOriginalFilename()))
-                    .normalize().toAbsolutePath();
-            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-                // This is a security check
-                throw new AudioException(
-                        "Cannot store file outside current directory.");
-            }
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile,
-                        StandardCopyOption.REPLACE_EXISTING);
-            }
+//            Path destinationFile = this.rootLocation.resolve(
+//                            Paths.get(file.getOriginalFilename()))
+//                    .normalize().toAbsolutePath();
+//            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+//                // This is a security check
+//                throw new AudioException(
+//                        "Cannot store file outside current directory.");
+//            }
+//            try (InputStream inputStream = file.getInputStream()) {
+//                Files.copy(inputStream, destinationFile,
+//                        StandardCopyOption.REPLACE_EXISTING);
+//            }
+            StringBuilder fileNames = new StringBuilder();
+            Path fileNameAndPath = Paths.get("src\\main\\resources\\static\\audios", file.getOriginalFilename());
+            fileNames.append(file.getOriginalFilename());
+            Files.write(fileNameAndPath, file.getBytes());
         }
         catch (IOException e) {
             throw new AudioException("Failed to store file.", e);
