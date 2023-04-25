@@ -13,7 +13,7 @@
 	<artifactId>hust-elearning-english</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hust-elearning-english</name>
-	<description>Do an 3 he thong on luyen va thi toeic</description>
+	<description>Do an tot nghiep he thong on luyen va thi toeic</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -131,6 +131,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.12.454</version>
 		</dependency>
 
 	</dependencies>

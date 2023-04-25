@@ -40,7 +40,8 @@
     <textarea name="partDirections" class="form-control" rows="8" >[[${directions}]]</textarea>
     <div>
         <audio autoplay>
-            <source th:src="@{/part/audio/{id}(id=${part.id})}" type="audio/mpeg">
+<!--            <source th:src="@{/part/audio/{id}(id=${part.id})}" type="audio/mpeg">-->
+            <source th:src="@{${part?.audio}}" type="audio/mpeg">
             Your browse does not support audio element
         </audio>
     </div>

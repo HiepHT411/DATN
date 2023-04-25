@@ -45,4 +45,6 @@ public class PartDto {
     private int unitTestNumber;
 
     private String year;
+
+    private String audio;
 }

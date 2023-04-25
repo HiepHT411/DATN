@@ -8,6 +8,7 @@ import com.hoanghiep.hust.repository.ResultTestRepository;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
 import com.hoanghiep.hust.service.IUnitTestService;
+import com.hoanghiep.hust.service.S3StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,6 +51,9 @@ public class AddQuestionController {
 
     @Autowired
     private QuestionStackDirectionsRepository questionStackDirectionsRepository;
+
+    @Autowired
+    private S3StorageService s3service;
 
     @GetMapping("/selectUnitTestAndPart")
     @PreAuthorize("hasRole('ADMIN')")
@@ -139,12 +146,14 @@ public class AddQuestionController {
                 question.setQuestionStackDirections(questionStackDirections);
             }
             if (Objects.nonNull(file) && !file.isEmpty()) {
-                StringBuilder fileNames = new StringBuilder();
-                Path fileNameAndPath = Paths.get("E:\\DA\\hust-elearning-english\\src\\main\\resources\\static\\images", file.getOriginalFilename());
-                fileNames.append(file.getOriginalFilename());
-                Files.write(fileNameAndPath, file.getBytes());
-                question.setImage("/images/"+fileNames);
+//                StringBuilder fileNames = new StringBuilder();
+//                Path fileNameAndPath = Paths.get("src\\main\\resources\\static\\images", file.getOriginalFilename());
+//                fileNames.append(file.getOriginalFilename());
+//                Files.write(fileNameAndPath, file.getBytes());
+//                question.setImage("/images/"+fileNames);
             }
+            String imageLink = s3service.uploadFile(file);
+            question.setImage("https://toeicappstorage.s3.ap-southeast-2.amazonaws.com/" + imageLink);
             questionService.saveQuestion(question);
         }
         aModel.addAttribute("unitTest", unitTest);

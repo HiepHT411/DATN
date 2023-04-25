@@ -12,6 +12,7 @@ import com.hoanghiep.hust.repository.UnitTestRepository;
 import com.hoanghiep.hust.repository.UserRepository;
 import com.hoanghiep.hust.service.IAudioService;
 import com.hoanghiep.hust.service.IPartService;
+import com.hoanghiep.hust.service.S3StorageService;
 import com.hoanghiep.hust.utility.CommonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -47,6 +48,9 @@ public class PartServiceImpl implements IPartService {
 
     @Autowired
     private IAudioService audioService;
+
+    @Autowired
+    private S3StorageService s3service;
 
     @Override
     public Page<Part> getAllParts(int pageNo, int pageSize, String sortField, String sortDir) {
@@ -104,10 +108,12 @@ public class PartServiceImpl implements IPartService {
     public Part createPart(CreatePartDto createPartDto, String username, MultipartFile audio) {
         Part newPart = this.createPart(createPartDto, username);
         if (Objects.nonNull(audio) && !audio.isEmpty()) {
-            StringBuilder fileNames = new StringBuilder();
-            audioService.store(audio);
-            fileNames.append(audio.getOriginalFilename());
-            newPart.setAudio("/audios/"+fileNames);
+//            StringBuilder fileNames = new StringBuilder();
+//            audioService.store(audio);
+//            fileNames.append(audio.getOriginalFilename());
+//            newPart.setAudio("/audios/"+fileNames);
+            String audioLink = s3service.uploadFile(audio);
+            newPart.setAudio("https://toeicappstorage.s3.ap-southeast-2.amazonaws.com/" + audioLink);
         }
         return partRepo.save(newPart);
     }

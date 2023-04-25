@@ -5,8 +5,10 @@ import com.hoanghiep.hust.entity.UnitTest;
 import com.hoanghiep.hust.service.IAudioService;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IUnitTestService;
+import com.hoanghiep.hust.service.S3StorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -41,6 +43,9 @@ public class AudioController {
 
     @Autowired
     private IAudioService audioService;
+
+    @Autowired
+    private S3StorageService storageService;
 
 //    @RequestMapping(value = "/recfile/{id}", method = RequestMethod.GET,
 //            produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE })
@@ -114,10 +119,11 @@ public class AudioController {
     @PreAuthorize("hasRole('ADMIN')")
     public String listUploadedFiles(Model model) throws IOException {
 
-        model.addAttribute("files", audioService.loadAll().map(
-                        path -> MvcUriComponentsBuilder.fromMethodName(AudioController.class,
-                                "serveFile", path.getFileName().toString()).build().toUri().toString())
-                .collect(Collectors.toList()));
+//        model.addAttribute("files", audioService.loadAll().map(
+//                        path -> MvcUriComponentsBuilder.fromMethodName(AudioController.class,
+//                                "serveFile", path.getFileName().toString()).build().toUri().toString())
+//                .collect(Collectors.toList()));
+        model.addAttribute("files", storageService.listAllUploadedFile());
 
         return "testUploadAudio";
     }
@@ -125,19 +131,38 @@ public class AudioController {
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
+//        local
         Resource file = audioService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    @GetMapping("/uploaded/files/{fileName}")
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) {
+        byte[] data = storageService.downloadFile(fileName);
+        ByteArrayResource resource = new ByteArrayResource(data);
+        return ResponseEntity
+                .ok()
+                .contentLength(data.length)
+                .header("Content-type", "application/octet-stream")
+                .header("Content-disposition", "attachment; filename=\"" + fileName + "\"")
+                .body(resource);
+    }
+
+    @DeleteMapping("/delete/{fileName}")
+    public ResponseEntity<String> deleteFile(@PathVariable String fileName) {
+        return new ResponseEntity<>(storageService.deleteFile(fileName), HttpStatus.OK);
     }
 
     @PostMapping("/part/audio")
     @PreAuthorize("hasRole('ADMIN')")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 
-        audioService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
+//        audioService.store(file);
+//        redirectAttributes.addFlashAttribute("message",
+//                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        String audioLink = storageService.uploadFile(file);
 
         return "redirect:/uploaded/files/audio";
     }

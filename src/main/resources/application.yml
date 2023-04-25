@@ -1,0 +1,22 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIA4K6HKSE6IA3TJ6OO
+      secret-key: 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
+    region:
+      static: ap-southeast-2
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: toeicappstorage
+
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 5MB
+      max-file-size: 20MB
+      max-request-size: 25MB

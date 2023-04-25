@@ -136,6 +136,7 @@ public class HomeController {
         PartDto partDto = commonMapper.convertToResponse(part, PartDto.class);
         partDto.setYear(part.getUnitTest().getYear());
         partDto.setUnitTestNumber(part.getUnitTest().getUnitTestNumber());
+        partDto.setAudio(part.getAudio());
         model.addAttribute("part", partDto);
         String direction = partDirectionsRepository.findById((long) part.getPartNumber()).isPresent() ? partDirectionsRepository.findById((long) part.getPartNumber()).get().getDirections() : "";
         model.addAttribute("directions", direction);
