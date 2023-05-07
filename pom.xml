@@ -100,26 +100,26 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>3.6.3</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.webjars</groupId>-->
+<!--			<artifactId>jquery</artifactId>-->
+<!--			<version>3.6.3</version>-->
+<!--		</dependency>-->
 
 		<!-- https://mvnrepository.com/artifact/org.webjars.npm/popper.js -->
-		<dependency>
-			<groupId>org.webjars.npm</groupId>
-			<artifactId>popper.js</artifactId>
-			<version>1.16.1</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.webjars.npm</groupId>-->
+<!--			<artifactId>popper.js</artifactId>-->
+<!--			<version>1.16.1</version>-->
+<!--		</dependency>-->
 
 
 
 		<!-- RabbitMQ Starter Dependency (Not required if you're using the simple in-memory broker for STOMP) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-amqp</artifactId>-->
+<!--		</dependency>-->
 
 		<!-- Following dependency is required for Full Featured STOMP Broker Relay -->
 		<dependency>
@@ -134,10 +134,17 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+<!--		<dependency>-->
+<!--			<groupId>com.amazonaws</groupId>-->
+<!--			<artifactId>aws-java-sdk</artifactId>-->
+<!--			<version>1.12.454</version>-->
+<!--		</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
 		<dependency>
 			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-java-sdk</artifactId>
-			<version>1.12.454</version>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.12.464</version>
 		</dependency>
 
 	</dependencies>
@@ -157,6 +164,36 @@
 					</excludes>
 				</configuration>
 			</plugin>
+<!--smaller jar file-->
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-shade-plugin</artifactId>-->
+<!--				<version>3.4.1</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>package</phase>-->
+<!--						<goals>-->
+<!--							<goal>shade</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<minimizeJar>true</minimizeJar>-->
+<!--							<filters>-->
+<!--								<filter>-->
+<!--									<artifact>com.amazonaws:aws-java-sdk</artifact>-->
+<!--									<includes>-->
+<!--										<include>com/amazonaws/services/s3/AmazonS3</include>-->
+<!--										<include>com/amazonaws/services/s3/model/*</include>-->
+<!--										<include>com/amazonaws/util/IOUtils</include>-->
+<!--									</includes>-->
+<!--									<excludes>-->
+<!--										<exclude>com.amazonaws:aws-java-sdk:jar</exclude>-->
+<!--									</excludes>-->
+<!--								</filter>-->
+<!--							</filters>-->
+<!--						</configuration	>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 

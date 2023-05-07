@@ -37,7 +37,7 @@ test:
         - target/surefire-reports/TEST-*.xml
         - target/failsafe-reports/TEST-*.xml
   only:
-    - main
+    - master
 
 deploy:
   stage: deploy
