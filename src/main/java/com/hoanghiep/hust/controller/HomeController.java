@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -62,11 +63,12 @@ public class HomeController {
     }
     @GetMapping("/partList")
     @PreAuthorize("isAuthenticated()")
+    @Transactional
     public String getUnitTest(Model model, @RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
-                              @RequestParam(value = "pageSize", required = false, defaultValue = "50") int pageSize,
+                              @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                               @RequestParam(value = "sortField", required = false, defaultValue = "id") String sortField,
                               @RequestParam(value = "sortDir", required = false, defaultValue = "desc") String sortDir) {
-        Page<Part> partPage = partService.getAllParts(pageNo, pageSize, sortField, sortDir);
+//        Page<Part> partPage = partService.getAllParts(pageNo, pageSize, sortField, sortDir);
         Page<PartDto> partDtos = partService.getAllNonNullParts(pageNo, pageSize, sortField, sortDir);
 
         model.addAttribute("listOfParts", partDtos.getContent());

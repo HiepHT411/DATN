@@ -2,7 +2,9 @@ package com.hoanghiep.hust.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hoanghiep.hust.enums.PartType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -15,6 +17,8 @@ import java.util.List;
 @Table(name = "part")
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Part extends BaseModel {
 
     @OneToOne
@@ -54,4 +58,14 @@ public class Part extends BaseModel {
 
     @Column(name = "audio")
     private String audio;
+
+    public Part(long id, int partNumber, String description, Integer numberOfQuestions, PartType partType, int times, UnitTest unitTest) {
+        this.setId(id);
+        this.partNumber = partNumber;
+        this.partType = partType;
+        this.description = description;
+        this.numberOfQuestions = numberOfQuestions;
+        this.times = times;
+        this.unitTest = unitTest;
+    }
 }

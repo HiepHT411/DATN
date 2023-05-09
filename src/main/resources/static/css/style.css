@@ -12,11 +12,11 @@
 }
 
 .drawing {
-    position: absolute;
-    top: 50px;
-    right: 0px;
+    position: fixed;
+    top: 140px;
+    right: 20px;
     bottom: 0px;
-    height: 85%;
+    height: 70%;
     color: #494969;
     z-index: -1;
     width: 49%;

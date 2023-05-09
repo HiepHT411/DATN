@@ -25,11 +25,11 @@
     <br/>
     <h1 class="text-light">Unit test [[${unitTest.unitTestNumber}]]</h1>
     <h2 class="text-light">Select The Correct Answers</h2>
-    <h2 class="text-light">[[${unitTest.description}]]</h2>
-    <h3 class="text-light">[[${part.partNumber}]]</h3>
+    <h3 class="text-light">Description: [[${unitTest.description}]]</h3>
+    <h3 class="text-light">Part: [[${part.partNumber}]]</h3>
     <div class="row">
-            <div class="col-lg-8 mt-5">
-                <div class="rounded bg-gradient text-dark shadow p-5 text-center mb-5">
+            <div class="col-lg-4 mt-5">
+                <div class="rounded bg-gradient text-dark shadow p-2 text-center mb-5">
                     <p class="mb-0 font-weight-bold text-uppercase">Time left: </p>
                     <div class="countdown pt-4"><p id="democountdown"></p></div>
 <!--                    <div id="clock" class="countdown pt-4"></div>-->
@@ -37,7 +37,7 @@
             </div>
     </div>
 
-    <textarea name="partDirections" class="form-control" rows="8" >[[${directions}]]</textarea>
+    <textarea name="partDirections" class="form-control" rows="8" readonly>[[${directions}]]</textarea>
     <div>
         <audio autoplay>
 <!--            <source th:src="@{/part/audio/{id}(id=${part.id})}" type="audio/mpeg">-->
@@ -46,14 +46,11 @@
         </audio>
     </div>
     <form id="part-form" th:action="@{/nextPart}" method="POST" th:object=${part}>
-        <div class="ques-box text-dark" th:each="ques, i: ${part.questions}">
+        <div class="ques-box bg-light text-dark" th:each="ques, i: ${part.questions}">
             <span th:text="${ques?.questionStackDirections?.title}"></span>
-            <br>
             <span th:text="${ques?.questionStackDirections?.directions}"></span>
             <img th:src="@{${ques?.questionStackDirections?.directions}}"/>
-            <br>
             <img th:src="@{${ques?.image}}" width="600"/>
-            <br>
             <h5>Question: [[${ques.index}]]</h5>
             <p class="title" th:text="${ques.title}"></p>
 
@@ -165,7 +162,7 @@ var x = setInterval(function() {
   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
   // Display the result in the element with id="demo"
-  document.getElementById("democountdown").innerHTML = days + "d " + hours + "h "
+  document.getElementById("democountdown").innerHTML = hours + "h "
   + minutes + "m " + seconds + "s ";
 
   // If the count down is finished, write some text

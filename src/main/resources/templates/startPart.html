@@ -20,12 +20,14 @@
 
 <div class="container py-5 px-4">
     <br/>
-    <h1 class="bg-warning text-light">Unit test [[${part.unitTestNumber}]] - Part [[${part.partNumber}]]</h1>
-    <h2 class="bg-danger text-light">Select The Correct Answers</h2>
-    <h2 class="bg-danger text-light">[[${part.description}]]</h2>
-    <textarea name="partDirections" class="form-control" rows="8" >[[${directions}]]</textarea>
+    <h1 class="text-light">Unit test [[${part.unitTestNumber}]] - Part [[${part.partNumber}]]</h1>
+    <h2 class="text-light">Select The Correct Answers</h2>
+    <h3 class="text-light">Description: [[${part.description}]]</h3>
+    <textarea name="partDirections" class="form-control" rows="8" readonly>[[${directions}]]</textarea>
     </script>
-    <div>
+<!--    <td>-->
+<!--        <span >-->
+           <div th:if="@{${part?.partType}} == 'LISTENING'">
         <p>Click on the play button to play the audio:</p>
         <audio controls>
 <!--            <source th:src="@{/part/audio/{id}(id=${part.id})}" type="audio/mpeg">-->
@@ -33,16 +35,16 @@
             Your browse does not support audio element
         </audio>
     </div>
+<!--        </span>-->
+<!--    </td>-->
+
     <br>
     <form th:action="@{/submit/part/{id}(id=${part.id})}" method="POST" th:object=${part}>
         <div class="ques-box bg-light text-dark" th:each="ques, i: ${part.questions}">
             <span th:text="${ques?.questionStackDirections?.title}"></span>
-            <br>
             <span th:text="${ques?.questionStackDirections?.directions}"></span>
             <img th:src="@{${ques?.questionStackDirections?.directions}}"/>
-            <br>
             <img th:src="@{${ques?.image}}" width="600"/>
-            <br>
 
             <h5>Question: [[${ques.index}]]</h5>
             <p class="title" th:text="${ques.title}"></p>

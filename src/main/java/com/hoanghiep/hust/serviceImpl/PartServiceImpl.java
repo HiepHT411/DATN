@@ -23,7 +23,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -130,23 +129,52 @@ public class PartServiceImpl implements IPartService {
 
     @Override
     public Page<PartDto> getAllNonNullParts(int pageNo, int pageSize, String sortField, String sortDir) {
-//        List<Part> allParts = partRepo.findAll();
-        Page<Part> partPage = getAllParts(pageNo, pageSize, sortField, sortDir);
-        Page<PartDto> pagePartDto = commonMapper.convertToResponsePage(partPage, PartDto.class, partPage.getPageable());
-        List<PartDto> partDtos = new ArrayList<>();
-        for (int i = 0; i < pagePartDto.getContent().size(); i++) {
-            if (pagePartDto.getContent().get(i).getQuestions().size() > 0 ) {
-                pagePartDto.getContent().get(i).setYear(partPage.getContent().get(i).getUnitTest().getYear());
-                pagePartDto.getContent().get(i).setUnitTestNumber(partPage.getContent().get(i).getUnitTest().getUnitTestNumber());
-                partDtos.add(pagePartDto.getContent().get(i));
+//        Page<Part> partPage = getAllParts(pageNo, pageSize, sortField, sortDir);
+//        Page<PartDto> pagePartDto = commonMapper.convertToResponsePage(partPage, PartDto.class, partPage.getPageable());
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, sort);
+        Page<Part> partList = partRepo.findAllPart(pageable);
+        Page<PartDto> partDtoList = commonMapper.convertToResponsePage(partList, PartDto.class, partList.getPageable());
+
+//        List<PartDto> partDtos = new ArrayList<>();
+
+        for (int i = 0; i < partDtoList.getContent().size(); i++) {
+
+            UnitTest unitTest = partList.getContent().get(i).getUnitTest();
+            if (Objects.nonNull(unitTest)) {
+                partDtoList.getContent().get(i).setYear(unitTest.getYear());
+                partDtoList.getContent().get(i).setUnitTestNumber(unitTest.getUnitTestNumber());
             }
         }
-//        Pageable pageable = PageRequest.of(pageNo, 10);
-        final int start = (int) partPage.getPageable().getOffset();
-        final int end = Math.min((start + partPage.getPageable().getPageSize()), partDtos.size());
-        final Page<PartDto> page = new PageImpl<>(partDtos.subList(start, end), partPage.getPageable(), partDtos.size());
-//        pagePartDto = new PageImpl<>(partDtos, partPage.getPageable(), partDtos.size());
 
-        return page;
+//        for (int i = partDtoList.size()-1; i >= 0 ; i--) {
+//            PartDto dto = partDtoList.get(i);
+//            UnitTest unitTest = partList.get(i).getUnitTest();
+//            dto.setYear(unitTest.getYear());
+//            dto.setUnitTestNumber(unitTest.getUnitTestNumber());
+//            dto.setNumberOfQuestions(Objects.isNull(dto.getNumberOfQuestions()) ? 0 : dto.getNumberOfQuestions());
+//            partDtos.add(dto);
+//        }
+
+//        if(pageNo>1){
+//            int from = (pageNo-1)*10;
+////            int to = pageNo*10 <= partDtos.size() ? pageNo*10 : partDtos.size();
+//            for(int i=from-1; i>=0; i--) {
+//                partDtos.remove(i);
+//            }
+//        } else if (pageNo ==1 && partDtos.size() > 10) {
+//            for (int i=10; i<partDtos.size(); i++) {
+//                partDtos.remove(i);
+//            }
+//        }
+
+//        final int start = (int) partPage.getPageable().getOffset();
+//        final int end = Math.min((start + partPage.getPageable().getPageSize()), partDtos.size());
+//        final Page<PartDto> page = new PageImpl<>(partDtos.subList(start, end), partPage.getPageable(), partDtos.size());
+
+//        final Page<PartDto> page = new PageImpl<>(partDtos, pageable, partDtos.size());
+
+        return partDtoList;
     }
 }

@@ -45,7 +45,7 @@
                         Unit test</a></th>
                 <th th:text="#{label.home.maintable.headers.year}">Year</th>
                 <th>Part Type</th>
-                <th th:text="#{label.home.maintable.headers.questions}">Questions</th>
+                <th th:text="#{label.home.maintable.headers.questions}">Number of Questions</th>
                 <th th:text="#{label.home.maintable.headers.times}">Times</th>
                 <th th:text="#{label.home.maintable.headers.play}">Start!</th>
                 <th  sec:authorize="hasRole('ADMIN')">Actions</th>
@@ -63,7 +63,8 @@
                 <td th:text="${part.unitTestNumber}"/>
                 <td th:text="${part.year}"/>
                 <td th:text="${part.partType}"/>
-                <td th:text="${#lists.size(part.questions)}"/>
+                <td th:text="${part.numberOfQuestions}"/>
+<!--                <td th:text="${#lists.size(part.questions)}"/>-->
                 <td th:text="${part.times}"/>
 
 

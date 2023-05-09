@@ -9,10 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,6 +33,8 @@ public class PartDto {
     private String description;
 
     private List<Question> questions;
+
+    private int numberOfQuestions;
 
     private Calendar createdDate;
 
