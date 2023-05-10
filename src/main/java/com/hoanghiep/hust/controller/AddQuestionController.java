@@ -19,14 +19,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileOutputStream;
+//import java.io.File;
+//import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Array;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+//import java.io.OutputStream;
+//import java.lang.reflect.Array;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -152,7 +152,7 @@ public class AddQuestionController {
 //                Files.write(fileNameAndPath, file.getBytes());
 //                question.setImage("/images/"+fileNames);
             }
-            String imageLink = s3service.uploadFile(file);
+            String imageLink = s3service.uploadFile(file, "");
             question.setImage("https://toeicappstorage.s3.ap-southeast-2.amazonaws.com/" + imageLink);
             questionService.saveQuestion(question);
         }

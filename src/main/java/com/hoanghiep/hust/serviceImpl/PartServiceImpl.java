@@ -19,9 +19,9 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -111,7 +111,7 @@ public class PartServiceImpl implements IPartService {
 //            audioService.store(audio);
 //            fileNames.append(audio.getOriginalFilename());
 //            newPart.setAudio("/audios/"+fileNames);
-            String audioLink = s3service.uploadFile(audio);
+            String audioLink = s3service.uploadFile(audio, "audiofiles/");
             newPart.setAudio("https://toeicappstorage.s3.ap-southeast-2.amazonaws.com/" + audioLink);
         }
         return partRepo.save(newPart);

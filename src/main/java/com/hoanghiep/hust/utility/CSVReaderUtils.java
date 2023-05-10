@@ -1,5 +1,7 @@
 package com.hoanghiep.hust.utility;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.S3Object;
 import com.hoanghiep.hust.dto.CreatePartDto;
 import com.hoanghiep.hust.entity.Part;
 import com.hoanghiep.hust.entity.Question;
@@ -8,13 +10,15 @@ import com.hoanghiep.hust.enums.PartType;
 import com.hoanghiep.hust.repository.QuestionRepo;
 import com.hoanghiep.hust.repository.QuestionStackDirectionsRepository;
 import com.hoanghiep.hust.service.IPartService;
+import com.hoanghiep.hust.service.S3StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,6 +30,9 @@ import java.util.Objects;
 @Component
 public class CSVReaderUtils {
 
+    @Value("${application.bucket.name}")
+    private String bucketName;
+
     @Autowired
     private QuestionRepo questionRepo;
 
@@ -35,11 +42,17 @@ public class CSVReaderUtils {
     @Autowired
     private IPartService partService;
 
+    @Autowired
+    private AmazonS3 s3Client;
+
+    @Autowired
+    private S3StorageService storageService;
+
     public List<Question> readQuestionFromCSV(String fileName) {
         List<Question> questions = new ArrayList<>();
         Path pathToFile = Paths.get(fileName);
         // create an instance of BufferedReader
-        // using try with resource, Java 7 feature to close resources
+        // using try with resource
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.ISO_8859_1)) {
             // read the first line from the text file
             String line = br.readLine();
@@ -51,7 +64,7 @@ public class CSVReaderUtils {
                 // use string.split to load a string array with the values from each line of the file, using a comma as the delimiter
                 String[] attributes = line.split(",");
                 Question question = createQuestion(attributes);
-                // adding book into ArrayList
+                // adding question into ArrayList
                 questions.add(question);
                 // read next line before looping
                 // if end of file reached, line would be null
@@ -59,6 +72,39 @@ public class CSVReaderUtils {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+        return questionRepo.saveAll(questions);
+    }
+
+    public List<Question> importAndStoreImportFileToAwsS3(MultipartFile file) {
+
+        List<Question> questions = new ArrayList<>();
+
+        String fileName = storageService.uploadFile(file, "importfiles/");
+
+        S3Object s3object = s3Client.getObject(bucketName, fileName);
+        InputStream is = s3object.getObjectContent();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+        try {
+            // read the first line from the text file
+            String line = br.readLine();
+            if(line != null) {
+                line = br.readLine();
+            }
+            // loop until all lines are read
+            while (line != null) {
+                // use string.split to load a string array with the values from each line of the file, using a comma as the delimiter
+                String[] attributes = line.split(",");
+                Question question = createQuestion(attributes);
+                // adding question into ArrayList
+                questions.add(question);
+                // read next line before looping
+                // if end of file reached, line would be null
+                line = br.readLine(); }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
         return questionRepo.saveAll(questions);
     }
 

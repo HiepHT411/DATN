@@ -25,12 +25,12 @@ public class S3StorageService {
     @Autowired
     private AmazonS3 s3Client;
 
-    public String uploadFile(MultipartFile file) {
+    public String uploadFile(MultipartFile file, String folder) {
         File fileObj = convertMultiPartFileToFile(file);
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj).withCannedAcl(CannedAccessControlList.PublicRead));
+        s3Client.putObject(new PutObjectRequest(bucketName, folder + fileName, fileObj).withCannedAcl(CannedAccessControlList.PublicRead));
         fileObj.delete();
-        return fileName;
+        return folder + fileName;
     }
 
 
