@@ -56,6 +56,7 @@ deploy:
     - echo "Deploying started..."
     - ssh $DEPLOY_SERVER_HOST "sudo systemctl stop consoleapp.service"
     - scp ./target/*.jar $DEPLOY_SERVER_HOST:~/console-app/
+    - ssh $DEPLOY_SERVER_HOST "chmod 666 ~/console-app/*.jar"
     - ssh $DEPLOY_SERVER_HOST "sudo systemctl start consoleapp.service"
     - echo "Finished deploying the app."
   only:
