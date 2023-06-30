@@ -15,8 +15,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     // protocol that defines the format and rules for data exchange.
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS(); // SockJS is used to enable fallback options for browsers that don’t
-        // support websocket
+        registry.addEndpoint("/ws").withSockJS(); // SockJS is used to enable fallback options for browsers that don’t support websocket
     }
 
     // configuring a message broker that will be used to route messages from one
