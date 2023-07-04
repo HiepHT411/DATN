@@ -2,6 +2,7 @@ package com.hoanghiep.hust.controller;
 
 //import com.hoanghiep.hust.exception.AudioException;
 import com.hoanghiep.hust.utility.CSVReaderUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/import")
+@Slf4j
 public class ImportController {
 
 //    private final Path rootLocation = Path.of("src\\main\\resources\\static\\importfiles");
@@ -71,6 +73,7 @@ public class ImportController {
         redirectAttributes.addFlashAttribute("message",
                 "You have successfully imported " + count  + " question(s)!");
 
+        log.info("Import successfully {}", file.getName());
 //        ModelAndView mav = new ModelAndView();
 //        mav.addObject("header", "Done");
 //        mav.addObject("subheader", "Imported Successfully");

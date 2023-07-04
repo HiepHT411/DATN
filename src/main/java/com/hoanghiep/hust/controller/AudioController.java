@@ -87,7 +87,7 @@ public class AudioController {
             MediaType.APPLICATION_OCTET_STREAM_VALUE })
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity getPPartAudioFie(HttpServletRequest request, HttpServletResponse response, @PathVariable("partId") Long partId) throws FileNotFoundException {
-
+        log.info("retrieve audio file of part {}", partId);
         Part part = partService.getPartById(partId);
         UnitTest unitTest = part.getUnitTest();
 //        String file = "src\\main\\resources\\static\\audios/";
@@ -120,7 +120,7 @@ public class AudioController {
 //                                "serveFile", path.getFileName().toString()).build().toUri().toString())
 //                .collect(Collectors.toList()));
         model.addAttribute("files", storageService.listAllUploadedFile());
-
+        log.info("List all uploaded files");
         return "testUploadAudio";
     }
 
@@ -128,6 +128,7 @@ public class AudioController {
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 //        local
+        log.info("Download file {} from local storage", filename);
         Resource file = audioService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
@@ -137,6 +138,7 @@ public class AudioController {
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) {
         byte[] data = storageService.downloadFile(fileName);
         ByteArrayResource resource = new ByteArrayResource(data);
+        log.info("Download file {}", fileName);
         return ResponseEntity
                 .ok()
                 .contentLength(data.length)
@@ -147,6 +149,7 @@ public class AudioController {
 
     @DeleteMapping("/delete/{fileName}")
     public ResponseEntity<String> deleteFile(@PathVariable String fileName) {
+        log.info("delete file {}", fileName);
         return new ResponseEntity<>(storageService.deleteFile(fileName), HttpStatus.OK);
     }
 
@@ -157,8 +160,8 @@ public class AudioController {
 //        audioService.store(file);
 //        redirectAttributes.addFlashAttribute("message",
 //                "You successfully uploaded " + file.getOriginalFilename() + "!");
-
         String audioLink = storageService.uploadFile(file, "audiofiles");
+        log.info("uploaded file to storage with link {}", audioLink);
 
         return "redirect:/uploaded/files/audio";
     }

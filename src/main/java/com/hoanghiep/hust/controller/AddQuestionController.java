@@ -9,13 +9,14 @@ import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
 import com.hoanghiep.hust.service.IUnitTestService;
 import com.hoanghiep.hust.service.S3StorageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
+//import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,6 +34,7 @@ import java.util.Objects;
 
 @Controller
 @RequestMapping("/addQuestion")
+@Slf4j
 public class AddQuestionController {
 
     private boolean submitted = false;
@@ -58,6 +60,7 @@ public class AddQuestionController {
     @GetMapping("/selectUnitTestAndPart")
     @PreAuthorize("hasRole('ADMIN')")
     public String selectUnitTestAndPart(Model model){
+        log.info("select unit test and part page");
         model.addAttribute("unitTestOptions", unitTestService.getAllUnitTests(1, 10, "id", "desc").getContent());
         model.addAttribute("partOptions", Arrays.asList(1,2,3,4,5,6,7));
         model.addAttribute("chose", new Chose());
@@ -68,8 +71,10 @@ public class AddQuestionController {
     @PreAuthorize("hasRole('ADMIN')")
     public String selectUnitTest(@ModelAttribute Chose chose, Model model){
         if (Objects.nonNull(partService.getPartByUnitTestIdAndPartNumber(chose.getUnitTestId(), chose.getPartNumber()))) {
+            log.info("add question page");
             return "redirect:/addQuestion/unitTest/"+ chose.getUnitTestId()+"/part/"+chose.getPartNumber();
         }
+        log.info("redirecting to create part page");
         return "createPart";
     }
     @GetMapping("/selectPart")
@@ -94,6 +99,7 @@ public class AddQuestionController {
 
         HttpSession mySession = request.getSession(true);
         if (mySession == null) {
+            log.error("no session passed with this add question request.");
             return this.error(model,request,"INITIATE: no session passed with request. Exiting now.");
         }
         mySession.setAttribute("unitTest", unitTest);
@@ -110,6 +116,7 @@ public class AddQuestionController {
         if (questionService.getNumberOfQuestionOfPart(part) >= part.getNumberOfQuestions()) {
             aModel.addAttribute("header", "Done");
             aModel.addAttribute("subheader", "Reached maximum number of questions of this part");
+            log.info("Reached maximum number of question. Redirect to simple message page");
             return "simplemessage";
         }
 //        aModel.addAttribute("numberOfParts", unitTest.getParts().size());
@@ -155,6 +162,7 @@ public class AddQuestionController {
             String imageLink = s3service.uploadFile(file, "");
             question.setImage("https://toeicappstorage.s3.ap-southeast-2.amazonaws.com/" + imageLink);
             questionService.saveQuestion(question);
+            log.info("added question successfully");
         }
         aModel.addAttribute("unitTest", unitTest);
         aModel.addAttribute("part", part);
@@ -169,6 +177,7 @@ public class AddQuestionController {
     @GetMapping("/error")
     public String error(Model aModel, HttpServletRequest request, String errorMessage) {
         aModel.addAttribute("err", errorMessage);
+        log.error("An error occurred {}", errorMessage);
         return "error";
     }
 }

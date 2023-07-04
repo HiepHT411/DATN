@@ -8,22 +8,17 @@ import com.hoanghiep.hust.repository.ResultTestRepository;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
 import com.hoanghiep.hust.service.IUnitTestService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -33,6 +28,7 @@ import java.util.*;
 
 @Controller
 //@SessionAttributes({TestController.ATTRIBUTE_NAME})
+@Slf4j
 public class TestController {
 
 //    static final String ATTRIBUTE_NAME = "testsession";
@@ -168,6 +164,7 @@ public class TestController {
         String endDate = sdf.format(endDate2);
         mySession.setAttribute("endDate", endDate);
 //        mySession.setAttribute("endDate", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2023-02-27 02:00:10"));
+        log.info("User {} start unit test {} at {}", username, id, endDate1);
         return this.displayquestion(model,request);
     }
 
@@ -186,8 +183,9 @@ public class TestController {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
         Date endDate = sdf.parse(request.getSession().getAttribute("endDate").toString());
         aModel.addAttribute("endDate", endDate);
+        log.info("End date at {}", endDate);
         return "startUnitTest";  // HTML TEMPLATE THAT DISPLAYS QUESTION DATA
-    } // QUIZQUESTION(MODEL,HTTPSERVLETREQUEST,HTTPSERVLETRESPONSE)
+    }
 
     @RequestMapping("/nextPart")
     @PreAuthorize("isAuthenticated()")
@@ -302,6 +300,7 @@ public class TestController {
     public String error(Model aModel, HttpServletRequest request, String errorMessage) {
         aModel.addAttribute("err", errorMessage);
 //        aModel.addAttribute("today", new Date().toString());
+        log.info("An error occurred: {}", errorMessage);
         return "error";
     }
 }

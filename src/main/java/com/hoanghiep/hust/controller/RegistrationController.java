@@ -2,6 +2,7 @@ package com.hoanghiep.hust.controller;
 
 import javax.validation.Valid;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +25,7 @@ import com.hoanghiep.hust.utility.VerifierUtils;
 
 @Controller
 @RequestMapping("/user")
+@Slf4j
 public class RegistrationController {
 
 	@Autowired
@@ -78,10 +80,12 @@ public class RegistrationController {
 	private ModelAndView registrationStepView(User user, ModelAndView mav) {
 
 		if (!registrationService.isRegistrationCompleted(user)) {
+			log.info("User {} haven't completed registration", user.getUsername());
 			mav.addObject("header", messageSource.getMessage("label.registration.step1.header", null, null));
 			mav.addObject("subheader", messageSource.getMessage("label.registration.step1.subheader", null, null));
 			mav.setViewName("simplemessage");
 		} else {
+			log.info("User {} registered successfully", user.getUsername());
 			mav.addObject("header", messageSource.getMessage("label.registration.step2.header", null, null));
 			mav.addObject("subheader", messageSource.getMessage("label.registration.step2.subheader", null, null));
 			mav.setViewName("simplemessage");

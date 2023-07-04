@@ -4,13 +4,12 @@ import com.hoanghiep.hust.entity.ChatMessage;
 import com.hoanghiep.hust.entity.User;
 import com.hoanghiep.hust.repository.ChatMessageRepository;
 import com.hoanghiep.hust.serviceImpl.UserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class ChatController {
 
     @Autowired
@@ -40,6 +40,7 @@ public class ChatController {
         }
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
+        log.info("user {} go to live chat page", user);
         return "livechat";
     }
     /*
@@ -49,7 +50,10 @@ public class ChatController {
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
     public List<ChatMessage> sendMessage(@Payload ChatMessage chatMessage) {
-        chatMessageRepository.save(chatMessage);
+        ChatMessage message = chatMessageRepository.save(chatMessage);
+        if(message.getType().equals(ChatMessage.MessageType.JOIN)) {
+            log.info("User {} joined live chat", message.getSender());
+        }
         return Collections.singletonList(chatMessage);
     }
 

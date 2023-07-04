@@ -119,6 +119,7 @@ public class UserManagementController {
 							 @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
 							 @RequestParam(value = "sortField", required = false, defaultValue = "id") String sortField,
 							 @RequestParam(value = "sortDir", required = false, defaultValue = "desc") String sortDir) {
+		log.info("retrieve all user");
 		Page<User> pageUser = userService.getAllUsers(pageNo, pageSize, sortField, sortDir);
 
 		model.addAttribute("users", pageUser.getContent());
@@ -160,6 +161,7 @@ public class UserManagementController {
 			}
 		}
 		model.addAttribute("user", newUser);
+		log.info("user {} updated successfully", newUser.getUsername());
 		return "userProfile";
 	}
 
