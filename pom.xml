@@ -162,6 +162,19 @@
 			<version>1.11.0</version>
 		</dependency>
 
+		<!--jersey URI builder class which used to construct the URI-->
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.29</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.github.loki4j/loki-logback-appender-jdk8 -->
+		<dependency>
+			<groupId>com.github.loki4j</groupId>
+			<artifactId>loki-logback-appender-jdk8</artifactId>
+			<version>1.4.1</version>
+		</dependency>
 
 	</dependencies>
 

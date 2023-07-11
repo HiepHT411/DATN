@@ -2,6 +2,7 @@ package com.hoanghiep.hust.controller;
 
 import javax.validation.Valid;
 
+import com.hoanghiep.hust.utility.MessageSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -22,6 +23,8 @@ import com.hoanghiep.hust.exception.UserAlreadyExistsException;
 import com.hoanghiep.hust.service.IRegistrationService;
 import com.hoanghiep.hust.service.IUserService;
 import com.hoanghiep.hust.utility.VerifierUtils;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/user")
@@ -45,7 +48,7 @@ public class RegistrationController {
 
 	@PostMapping(value = "/registration")
 	@PreAuthorize("permitAll")
-	public ModelAndView signUp(@ModelAttribute @Valid User user, BindingResult result) {
+	public ModelAndView signUp(@ModelAttribute @Valid User user, BindingResult result) throws IOException, InterruptedException {
 		User newUser;
 		ModelAndView mav = new ModelAndView();
 
@@ -69,7 +72,7 @@ public class RegistrationController {
 
 	@RequestMapping(value = "/{user_id}/continueRegistration", method = RequestMethod.GET)
 	@PreAuthorize("permitAll")
-	public ModelAndView nextRegistrationStep(@PathVariable Long user_id, String token) {
+	public ModelAndView nextRegistrationStep(@PathVariable Long user_id, String token) throws IOException, InterruptedException {
 		User user = userService.find(user_id);
 		registrationService.continueRegistration(user, token);
 
@@ -77,7 +80,7 @@ public class RegistrationController {
 		return registrationStepView(user, mav);
 	}
 
-	private ModelAndView registrationStepView(User user, ModelAndView mav) {
+	private ModelAndView registrationStepView(User user, ModelAndView mav) throws IOException, InterruptedException {
 
 		if (!registrationService.isRegistrationCompleted(user)) {
 			log.info("User {} haven't completed registration", user.getUsername());
@@ -86,6 +89,7 @@ public class RegistrationController {
 			mav.setViewName("simplemessage");
 		} else {
 			log.info("User {} registered successfully", user.getUsername());
+			MessageSender.sendAccountCreatedToMyTelegramRoom(user.getUsername(), user.getEmail());
 			mav.addObject("header", messageSource.getMessage("label.registration.step2.header", null, null));
 			mav.addObject("subheader", messageSource.getMessage("label.registration.step2.subheader", null, null));
 			mav.setViewName("simplemessage");
