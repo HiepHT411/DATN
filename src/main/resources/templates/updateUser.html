@@ -28,6 +28,9 @@
 
     <form name='updateUserForm' action='#' th:action="@{/user/update/{id}(id=${user.id})}" method='POST' th:object="${user}" onsubmit="return validateUpdateUserForm();">
       <div class="form-group">
+        <label>Active user: </label>
+        <input type="checkbox" class="custom-control-input" name="enable" th:field="*{user.enabled}" th:checked="${user.enabled}" />
+        <br/>
         <label>User Level: </label>
         <input th:placeholder="${user.userLevel}" name="userLevel" class="form-control"/>
         <br/>
@@ -55,7 +58,7 @@
 		function validateUpdateUserForm() {
 			password = document.forms["updateUserForm"]["password"].value;
 			repeatPassword = document.forms["updateUserForm"]["repeatPassword"].value;
-
+            console.log(document.forms["updateUserForm"]["enable"].value);
 			if (password != repeatPassword) {
 				alert("Passwords don't match!");
 				return false;

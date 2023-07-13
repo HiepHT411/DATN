@@ -1,7 +1,6 @@
 package com.hoanghiep.hust.serviceImpl;
 
 import com.hoanghiep.hust.enums.Role;
-import com.hoanghiep.hust.exception.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class RegistrationServiceImpl implements IRegistrationService {
 		if (Objects.nonNull(user)) {
 			user.setRoles(Arrays.asList(Role.ROLE_USER));
 			newUser = userService.saveUser(user);
-			newUser.setEnabled(true);
+			newUser.setEnabled(true); //auto completed registration
 			//userService.setRegistrationCompleted(user);
 		}
 		return newUser;

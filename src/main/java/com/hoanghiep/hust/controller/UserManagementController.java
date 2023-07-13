@@ -144,7 +144,7 @@ public class UserManagementController {
 
 	@PostMapping("/update/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-	public String updatePart(@PathVariable("id") long id, @Valid User user,
+	public String updateUser(@PathVariable("id") long id, @Valid User user,
 							 BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			user.setId(id);

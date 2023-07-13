@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -129,10 +130,12 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public User updateUser(User updatedUserDto) {
 		User userToBeUpdated = find(updatedUserDto.getId());
+			userToBeUpdated.setEnabled(updatedUserDto.isEnabled());
+		// not blank = non null + empty (chi trong string utils
 		if (Objects.nonNull(updatedUserDto.getUserLevel())) {
 			userToBeUpdated.setUserLevel(updatedUserDto.getUserLevel());
 		}
-		if (Objects.nonNull(updatedUserDto.getPassword())) {
+		if (StringUtils.isNotBlank(updatedUserDto.getPassword())) {
 			userToBeUpdated.setPassword(passwordEncoder.encode(updatedUserDto.getPassword()));
 		}
 		return userRepository.save(userToBeUpdated);
