@@ -32,7 +32,7 @@
                 <input th:placeholder="${part.partNumber}" name="partNumber" class="form-control" required="true"/>
                 <br/>
                 <label>Part Description</label>
-                <textarea th:placeholder="${part.description}" name="description" class="form-control" rows="6" > </textarea>
+                <textarea th:placeholder="${part.description}" name="description" class="form-control" rows="6" >[[${part.description}]] </textarea>
                 <br/>
                 <label>Part Type</label>
                 <input th:placeholder="${part.partType}" name="partType" class="form-control" required="true"/>

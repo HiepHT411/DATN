@@ -35,10 +35,10 @@
         <input th:placeholder="${unitTest.unitTestNumber}" name="unitTestNumber" class="form-control" required="true"/>
         <br/>
         <label>Unit Test Description</label>
-        <textarea th:placeholder="${unitTest.description}" name="description" class="form-control" rows="6" > </textarea>
+        <textarea th:placeholder="${unitTest.description}" name="description" class="form-control" type = "text" rows="6" >[[${unitTest.description}]] </textarea>
         <br/>
 
-        <button class="btn btn-lg cta-second btn-block" type="submit">Update</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
       </div>
     </form>
 

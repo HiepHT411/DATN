@@ -5,20 +5,24 @@ import com.hoanghiep.hust.entity.ResultTest;
 import com.hoanghiep.hust.entity.UnitTest;
 import com.hoanghiep.hust.repository.PartDirectionsRepository;
 import com.hoanghiep.hust.repository.ResultTestRepository;
+import com.hoanghiep.hust.repository.UnitTestRepository;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
 import com.hoanghiep.hust.service.IUnitTestService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -55,6 +59,9 @@ public class TestController {
 
     @Autowired
     private PartDirectionsRepository partDirectionsRepository;
+
+    @Autowired
+    private UnitTestRepository unitTestRepository;
 
 
 //    @GetMapping("/removethis/unitTest/{id}/part/{partNumber}")
@@ -305,6 +312,46 @@ public class TestController {
 ////        m.addAttribute("result", result);
 //        return "resultTest.html";
 //    }
+
+    @GetMapping("/showFormForUpdateUnitTest/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String showFormForUpdateUnitTest(@PathVariable(value = "id") long id, Model model) {
+        UnitTest unitTest = unitTestService.getUnitTestById(id);
+
+        model.addAttribute("unitTest", unitTest);
+        return "updateUnitTest";
+    }
+
+    @PostMapping("/updateUnitTest/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String updatePart(@PathVariable("id") long id, @Valid UnitTest unitTest,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            unitTest.setId(id);
+            return "updateUnitTest";
+        }
+        UnitTest unitTestToUpDate = unitTestService.getUnitTestById(id);
+        if (Objects.nonNull(unitTest.getUnitTestNumber()) && unitTest.getUnitTestNumber() > 0) {
+            unitTestToUpDate.setUnitTestNumber(unitTest.getUnitTestNumber());
+        }
+        if (Objects.nonNull(unitTest.getDescription()) && StringUtils.isNotBlank(unitTest.getDescription())) {
+            unitTestToUpDate.setDescription(unitTest.getDescription());
+        }
+        if (Objects.nonNull(unitTest.getYear()) && StringUtils.isNotBlank(unitTest.getYear())) {
+            unitTestToUpDate.setYear(unitTest.getYear());
+        }
+
+        unitTestRepository.save(unitTestToUpDate);
+        return "redirect:/examList";
+    }
+
+    @GetMapping("/deleteUnitTest/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteUnitTest(@PathVariable(value = "id") long id) {
+
+        this.unitTestService.deleteUnitTestById(id);
+        return "redirect:/examList";
+    }
 
     @GetMapping("/error")
     public String error(Model aModel, HttpServletRequest request, String errorMessage) {
