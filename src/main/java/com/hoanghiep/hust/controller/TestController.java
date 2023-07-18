@@ -129,6 +129,13 @@ public class TestController {
         model.addAttribute("unitTest", unitTest);
         model.addAttribute("part", parts.get(partNumber-1));
 
+        int lastPart = 1;
+        for (Part p : parts) {
+            if (p.getPartNumber() > lastPart)
+                lastPart = p.getPartNumber();
+        }
+        model.addAttribute("lastPart", lastPart);
+
         HttpSession mySession = request.getSession(true);
         if (mySession == null) {
             return this.error(model,request,"INITIATE: no session passed with request. Exiting now.");
@@ -147,6 +154,7 @@ public class TestController {
 
         mySession.setAttribute("part", parts.get(partNumber-1));
         mySession.setAttribute("resultTest", resultTest);
+        mySession.setAttribute("lastPart", lastPart);
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
 //        if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
@@ -191,6 +199,7 @@ public class TestController {
     @PreAuthorize("isAuthenticated()")
     public String nextPart(Model aModel, HttpServletRequest request, @ModelAttribute Part donePart) throws ParseException {
         ResultTest resultTest1 = (ResultTest) request.getSession().getAttribute("resultTest");
+        int lastPart = (Integer) request.getSession().getAttribute("lastPart");
 
 //        Part part= (Part) request.getSession().getAttribute("part");
         Part partInfo = partService.getPartById(donePart.getId());
@@ -226,6 +235,7 @@ public class TestController {
             Part nextPart = partService.getPartByUnitTestIdAndPartNumber(partInfo.getUnitTest().getId(), partInfo.getPartNumber()+1);
             HttpSession mySession = request.getSession(true);
             mySession.setAttribute("part", nextPart);
+            aModel.addAttribute("lastPart", lastPart);
             return this.displayquestion(aModel,request);
         } // IF(NOT DONE)
         resultTest1.setTotalPoint(resultTest1.getPart1Point()+resultTest1.getPart2Point()+resultTest1.getPart3Point()+resultTest1.getPart4Point()+resultTest1.getPart5Point()+resultTest1.getPart6Point()+resultTest1.getPart7Point());

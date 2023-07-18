@@ -49,22 +49,22 @@
             <h5>Question: [[${ques.index}]]</h5>
             <p class="title" th:text="${ques.title}"></p>
 
-            <div class="option">
+            <div class="option" th:if="${ques.optionA != ''}">
                 <input type="radio" th:name="|questions[${i.index}].chose|" th:value="1" />
                 <p th:text="${ques.optionA}"></p>
             </div>
 
-            <div class="option">
+            <div class="option" th:if="${ques.optionB != ''}">
                 <input type="radio" th:name="|questions[${i.index}].chose|" th:value="2" />
                 <p th:text="${ques.optionB}"></p>
             </div>
 
-            <div class="option">
+            <div class="option" th:if="${ques.optionC != ''}">
                 <input type="radio" th:name="|questions[${i.index}].chose|" th:value="3" />
                 <p th:text="${ques.optionC}"></p>
             </div>
 
-            <div class="option">
+            <div class="option" th:if="${ques.optionD != ''}">
                 <input type="radio" th:name="|questions[${i.index}].chose|" th:value="4" />
                 <p th:text="${ques.optionD}"></p>
             </div>

@@ -160,7 +160,7 @@ public class AudioController {
 //        audioService.store(file);
 //        redirectAttributes.addFlashAttribute("message",
 //                "You successfully uploaded " + file.getOriginalFilename() + "!");
-        String audioLink = storageService.uploadFile(file, "audiofiles");
+        String audioLink = storageService.uploadFile(file, "audiofiles/");
         log.info("uploaded file to storage with link {}", audioLink);
 
         return "redirect:/uploaded/files/audio";
