@@ -5,12 +5,10 @@ import com.hoanghiep.hust.entity.ResultTest;
 import com.hoanghiep.hust.entity.UnitTest;
 import com.hoanghiep.hust.repository.PartDirectionsRepository;
 import com.hoanghiep.hust.repository.ResultTestRepository;
-import com.hoanghiep.hust.repository.UnitTestRepository;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.IQuestionService;
 import com.hoanghiep.hust.service.IUnitTestService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,69 +57,6 @@ public class TestController {
 
     @Autowired
     private PartDirectionsRepository partDirectionsRepository;
-
-    @Autowired
-    private UnitTestRepository unitTestRepository;
-
-
-//    @GetMapping("/removethis/unitTest/{id}/part/{partNumber}")
-//    public String getUnitTestById(@PathVariable Long id, @PathVariable int partNumber,
-//                                        @ModelAttribute Part donePart,
-//                                        Model model,
-////                                        @ModelAttribute(ATTRIBUTE_NAME) ResultTest result,
-//                                        RedirectAttributes redirectAttributes,
-//                                        HttpSession httpSession){
-//        submitted = false;
-////        ResultTest result = (ResultTest) httpSession.getAttribute("result");
-//        UnitTest unitTest = unitTestService.getUnitTestById(id);
-//        List<Part> parts = partService.getPartByUnitTestId(unitTest.getId());
-//        model.addAttribute("numberOfParts", unitTest.getParts().size());
-//        model.addAttribute("unitTest", unitTest);
-//        model.addAttribute("part", parts.get(partNumber-1));
-////        if(Objects.nonNull(donePart.getQuestions())) {
-//        if(!model.containsAttribute(BINDING_RESULT_NAME)) {
-//            ResultTest newResultTest = new ResultTest();
-//            model.addAttribute(ATTRIBUTE_NAME, newResultTest);
-//        } else if(model.containsAttribute(BINDING_RESULT_NAME)){
-//            switch (donePart.getPartNumber()) {
-//                case 1:
-//                    System.err.println("part1: ");
-//                    result.setPart1Point(questionService.getResult(donePart.getQuestions()));
-//                    break;
-//                case 2:
-//                    System.err.println("part2: ");
-//                    result.setPart2Point(questionService.getResult(donePart.getQuestions()));
-//                    break;
-//                case 3:
-//                    System.err.println("part3: ");
-//                    result.setPart3Point(questionService.getResult(donePart.getQuestions()));
-//                    break;
-//                case 4:
-//                    result.setPart4Point(questionService.getResult(donePart.getQuestions()));
-//                    break;
-//                case 5:
-//                    result.setPart5Point(questionService.getResult(donePart.getQuestions()));
-//                    break;
-//                case 6:
-//                    result.setPart6Point(questionService.getResult(donePart.getQuestions()));
-//                    break;
-//                case 7:
-//                    result.setPart7Point(questionService.getResult(donePart.getQuestions()));
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//        httpSession.setAttribute("result", result);
-//        redirectAttributes.addFlashAttribute(ATTRIBUTE_NAME, result);
-////        final ModelAndView modelAndView = new ModelAndView("/startUnitTest");
-//        if(partNumber == 1){
-//            return "/startUnitTest";
-//        }
-//
-//        return "redirect:/unitTest/"+id+"/part/"+(partNumber);
-//    }
-
 
     @GetMapping("/unitTest/{id}/part/{partNumber}")
     @PreAuthorize("isAuthenticated()")
@@ -324,24 +259,14 @@ public class TestController {
 
     @PostMapping("/updateUnitTest/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String updatePart(@PathVariable("id") long id, @Valid UnitTest unitTest,
+    public String updateUnitTest(@PathVariable("id") long id, @Valid UnitTest unitTest,
                              BindingResult result, Model model) {
         if (result.hasErrors()) {
             unitTest.setId(id);
             return "updateUnitTest";
         }
-        UnitTest unitTestToUpDate = unitTestService.getUnitTestById(id);
-        if (Objects.nonNull(unitTest.getUnitTestNumber()) && unitTest.getUnitTestNumber() > 0) {
-            unitTestToUpDate.setUnitTestNumber(unitTest.getUnitTestNumber());
-        }
-        if (Objects.nonNull(unitTest.getDescription()) && StringUtils.isNotBlank(unitTest.getDescription())) {
-            unitTestToUpDate.setDescription(unitTest.getDescription());
-        }
-        if (Objects.nonNull(unitTest.getYear()) && StringUtils.isNotBlank(unitTest.getYear())) {
-            unitTestToUpDate.setYear(unitTest.getYear());
-        }
+        unitTestService.updateUnitTest(id, unitTest);
 
-        unitTestRepository.save(unitTestToUpDate);
         return "redirect:/examList";
     }
 

@@ -14,4 +14,6 @@ public interface IUnitTestService {
     void deleteUnitTestById(long id);
 
     void updateUnitTest(long id, UnitTest unitTest);
+
+    Page<UnitTest> getUnitTestsByYear(int pageNo, int pageSize, String sortField, String sortDir, String year);
 }

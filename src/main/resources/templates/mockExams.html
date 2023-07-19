@@ -27,9 +27,15 @@
     <div ng-controller="HomeCtrl">
 
         <div>
-            <h1 th:text="#{label.home.welcome}">Mock Exams</h1>
+            <h1>Mock Exams</h1>
             <br/>
         </div>
+
+        <form th:action="@{/searchUnitTestByYear}" id="searchForm" method="get">
+            <input id="input-keyword" type="text" name="keyword" th:value="${keyword}"  placeholder="Find unit test by year" size="50" >
+            <button type="submit" class="btn btn-info" >Search</button>
+<!--            <button id="reset-form-btn" class="btn btn-info" >Reset</button>-->
+        </form>
 
         <table class="table table-hover table-striped table-responsive-md" align="center">
             <thead>
@@ -112,5 +118,16 @@
 <br/>
 <!-- Importing Footer -->
 <div th:insert="footer.html :: footer"></div>
+<script>
+    const resetBtn=document.getElementById('reset-form-btn')
+    const searchForm=document.getElementById('searchForm')
+    const inputForm=document.getElementById('input-keyword')
+    const handleReset=()=>{
+        inputForm.value=''
+        searchForm.reset();
+        searchForm.submit();
+    }
+    resetBtn.addEventListener('click',handleReset)
+</script>
 </body>
 </html>
