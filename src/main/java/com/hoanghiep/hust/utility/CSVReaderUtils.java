@@ -94,7 +94,7 @@ public class CSVReaderUtils {
             // loop until all lines are read
             while (line != null) {
                 // use string.split to load a string array with the values from each line of the file, using a comma as the delimiter
-                String[] attributes = line.split(",");
+                String[] attributes = line.split(";");
                 Question question = createQuestion(attributes);
                 // adding question into ArrayList
                 questions.add(question);

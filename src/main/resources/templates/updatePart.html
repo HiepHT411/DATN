@@ -29,16 +29,16 @@
         <form name='f' action='#' th:action="@{/update/{id}(id=${part.id})}" method='POST' th:object="${part}" class="form-signin">
             <div class="form-group">
                 <label>Part Number</label>
-                <input th:placeholder="${part.partNumber}" name="partNumber" class="form-control" required="true"/>
+                <input type="text" th:value="${part.partNumber}" name="partNumber" class="form-control" required="true"/>
                 <br/>
                 <label>Part Description</label>
                 <textarea th:placeholder="${part.description}" name="description" class="form-control" rows="6" >[[${part.description}]] </textarea>
                 <br/>
                 <label>Part Type</label>
-                <input th:placeholder="${part.partType}" name="partType" class="form-control" required="true"/>
+                <input th:value="${part.partType}" name="partType" class="form-control" required="true"/>
                 <br/>
                 <label>Times</label>
-                <input th:placeholder="${part.times}" name="times" class="form-control"/>
+                <input th:value="${part.times}" name="times" class="form-control"/>
                 <br/>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
             </div>

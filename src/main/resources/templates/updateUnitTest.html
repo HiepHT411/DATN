@@ -29,13 +29,13 @@
     <form name='f' action='#' th:action="@{/updateUnitTest/{id}(id=${unitTest.id})}" method='POST' th:object="${unitTest}" class="form-signin">
       <div class="form-group">
         <label>Year</label>
-        <input th:placeholder="${unitTest.year}" name="year" class="form-control"/>
+        <input th:value="${unitTest.year}" name="year" class="form-control"/>
         <br/>
         <label>Unit Test Number</label>
-        <input th:placeholder="${unitTest.unitTestNumber}" name="unitTestNumber" class="form-control" required="true"/>
+        <input th:value="${unitTest.unitTestNumber}" name="unitTestNumber" class="form-control" required="true"/>
         <br/>
         <label>Unit Test Description</label>
-        <textarea th:placeholder="${unitTest.description}" name="description" class="form-control" type = "text" rows="6" >[[${unitTest.description}]] </textarea>
+        <textarea th:value="${unitTest.description}" name="description" class="form-control" type = "text" rows="6" >[[${unitTest.description}]] </textarea>
         <br/>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>

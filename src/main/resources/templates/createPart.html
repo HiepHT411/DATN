@@ -35,13 +35,13 @@
                 <input th:placeholder="2023" name="unitTestYear" class="form-control" required="true"/>
                 <br/>
                 <label>Unit Test Description</label>
-                <textarea th:placeholder="'part description'" name="unitTestDescription" class="form-control" rows="6" > </textarea>
+                <textarea th:placeholder="'part description'" name="unitTestDescription" class="form-control" rows="6" required="true"> </textarea>
                 <br/>
                 <label>Part Number</label>
                 <input th:placeholder="'Part Number'" name="partNumber" class="form-control" required="true"/>
                 <br/>
                 <label>Part Description</label>
-                <textarea th:placeholder="'Part Description'" name="partDescription" class="form-control" rows="6" > </textarea>
+                <textarea th:placeholder="'Part Description'" name="partDescription" class="form-control" rows="6" required="true"> </textarea>
                 <br/>
                 <label>Part Type</label>
                 <input th:placeholder="'LISTENING/READING'" name="partType" class="form-control" required="true"/>
@@ -50,7 +50,7 @@
                 <input th:placeholder="'number of questions'" name="numberOfQuestions" class="form-control" required="true"/>
                 <br/>
                 <label>Times</label>
-                <input th:placeholder="'Times'" name="times" class="form-control"/>
+                <input th:placeholder="'Times'" name="times" class="form-control" required="true"/>
                 <br/>
                 <label>Audio</label>
                 <input type="file" name="audio" class="form-control-file">
