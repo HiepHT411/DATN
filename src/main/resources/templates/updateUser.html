@@ -32,7 +32,7 @@
         <input type="checkbox" class="custom-control-input" name="enable" th:field="*{user.enabled}" th:checked="${user.enabled}" />
         <br/>
         <label>User Level: </label>
-        <input th:placeholder="${user.userLevel}" name="userLevel" class="form-control"/>
+        <input th:value="${user.userLevel}" name="userLevel" class="form-control"/>
         <br/>
         <label>New password: </label>
         <input

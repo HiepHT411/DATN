@@ -11,6 +11,7 @@ import com.hoanghiep.hust.repository.QuestionRepo;
 import com.hoanghiep.hust.repository.QuestionStackDirectionsRepository;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.S3StorageService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -94,7 +95,7 @@ public class CSVReaderUtils {
             // loop until all lines are read
             while (line != null) {
                 // use string.split to load a string array with the values from each line of the file, using a comma as the delimiter
-                String[] attributes = line.split(",");
+                String[] attributes = line.split(";");
                 Question question = createQuestion(attributes);
                 // adding question into ArrayList
                 questions.add(question);
@@ -156,7 +157,7 @@ public class CSVReaderUtils {
                 .optionB(optionB)
                 .optionC(optionC)
                 .optionD(optionD)
-                .image("/images/"+image)
+                .image(StringUtils.isNotBlank(image) ? "/images/"+image : "")
                 .part(part)
                 .build();
         if (Objects.nonNull(questionStackDirections)){
