@@ -11,6 +11,7 @@ import com.hoanghiep.hust.repository.QuestionRepo;
 import com.hoanghiep.hust.repository.QuestionStackDirectionsRepository;
 import com.hoanghiep.hust.service.IPartService;
 import com.hoanghiep.hust.service.S3StorageService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -156,7 +157,7 @@ public class CSVReaderUtils {
                 .optionB(optionB)
                 .optionC(optionC)
                 .optionD(optionD)
-                .image("/images/"+image)
+                .image(StringUtils.isNotBlank(image) ? "/images/"+image : "")
                 .part(part)
                 .build();
         if (Objects.nonNull(questionStackDirections)){
