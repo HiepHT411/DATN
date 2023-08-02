@@ -19,4 +19,6 @@ public interface PartRepo extends JpaRepository<Part, Long> {
 
     @Query("SELECT new Part(id, partNumber, description, numberOfQuestions, partType, times, unitTest) FROM Part p where (select count(*) from Question q where p.id = q.part.id ) > 0 ")
     Page<Part> findAllPart(Pageable pageable);
+
+    Page<Part> findByPartNumber(Integer partNumber, Pageable pageable);
 }

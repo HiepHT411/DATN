@@ -177,4 +177,25 @@ public class PartServiceImpl implements IPartService {
 
         return partDtoList;
     }
+
+    @Override
+    public Page<PartDto> getAllNonNullPartsByPartNumber(int pageNo, int pageSize, String sortField, String sortDir, Integer keyword) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, sort);
+        Page<Part> partList = partRepo.findByPartNumber(keyword, pageable);
+        Page<PartDto> partDtoList = commonMapper.convertToResponsePage(partList, PartDto.class, partList.getPageable());
+
+//        List<PartDto> partDtos = new ArrayList<>();
+
+        for (int i = 0; i < partDtoList.getContent().size(); i++) {
+
+            UnitTest unitTest = partList.getContent().get(i).getUnitTest();
+            if (Objects.nonNull(unitTest)) {
+                partDtoList.getContent().get(i).setYear(unitTest.getYear());
+                partDtoList.getContent().get(i).setUnitTestNumber(unitTest.getUnitTestNumber());
+            }
+        }
+        return partDtoList;
+    }
 }

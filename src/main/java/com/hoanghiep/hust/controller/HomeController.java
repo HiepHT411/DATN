@@ -46,7 +46,7 @@ public class HomeController {
     @GetMapping("/partList")
     @PreAuthorize("isAuthenticated()")
     @Transactional
-    public String getUnitTest(Model model, @RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
+    public String getListOfMockParts(Model model, @RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
                               @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                               @RequestParam(value = "sortField", required = false, defaultValue = "id") String sortField,
                               @RequestParam(value = "sortDir", required = false, defaultValue = "desc") String sortDir) {
@@ -87,12 +87,12 @@ public class HomeController {
     }
 
     @GetMapping(path = {"/searchUnitTestByYear"})
-    public String home(Model model, String keyword,
+    public String searchUnitTestByYear(Model model, String keyword,
                        @RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
                        @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                        @RequestParam(value = "sortField", required = false, defaultValue = "id") String sortField,
                        @RequestParam(value = "sortDir", required = false, defaultValue = "desc") String sortDir) {
-        if (keyword != null && StringUtils.isNotBlank(keyword)) {
+        if (StringUtils.isNotBlank(keyword)) {
             Page<UnitTest> pageUnitTest = unitTestService.getUnitTestsByYear(pageNo, pageSize, sortField, sortDir, keyword);
             if(!pageUnitTest.getContent().isEmpty()) {
                 model.addAttribute("listOfUnitTests", pageUnitTest.getContent());
@@ -112,4 +112,30 @@ public class HomeController {
         return "mockExams";
     }
 
+    @GetMapping(path = {"/searchPartByPartNumber"})
+    public String searchPartByPartNumber(Model model, Integer keyword,
+                       @RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
+                       @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+                       @RequestParam(value = "sortField", required = false, defaultValue = "id") String sortField,
+                       @RequestParam(value = "sortDir", required = false, defaultValue = "desc") String sortDir) {
+        if (keyword != null && StringUtils.isNotBlank(keyword.toString()) && keyword > 0 && keyword < 8) {
+            Page<PartDto> partDtos = partService.getAllNonNullPartsByPartNumber(pageNo, pageSize, sortField, sortDir, keyword);
+
+            if(!partDtos.getContent().isEmpty()) {
+                model.addAttribute("listOfParts", partDtos.getContent());
+            }
+            model.addAttribute("currentPage", pageNo);
+            model.addAttribute("totalPages", partDtos.getTotalPages());
+            model.addAttribute("totalItems", partDtos.getTotalElements());
+
+            model.addAttribute("sortField", sortField);
+            model.addAttribute("sortDir", sortDir);
+            model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        } else {
+            model.addAttribute("keyword", "");
+            getListOfMockParts(model, pageNo, pageSize, sortField, sortDir);
+        }
+        model.addAttribute("keyword", keyword);
+        return "partList";
+    }
 }

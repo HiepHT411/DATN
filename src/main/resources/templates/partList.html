@@ -31,6 +31,12 @@
             <br/>
         </div>
 
+        <form th:action="@{/searchPartByPartNumber}" id="searchForm" method="get">
+            <input id="input-keyword" type="text" name="keyword" th:value="${keyword}"  placeholder="Find part by part number" size="50" >
+            <button type="submit" class="btn btn-info" >Search</button>
+            <!--            <button id="reset-form-btn" class="btn btn-info" >Reset</button>-->
+        </form>
+
         <table class="table table-hover table-striped table-responsive-md" align="center">
             <thead>
             <tr>
