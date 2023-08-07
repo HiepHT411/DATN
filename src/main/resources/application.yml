@@ -1,8 +1,10 @@
 cloud:
   aws:
     credentials:
-      access-key: AKIA4K6HKSE6IA3TJ6OO
-      secret-key: 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
+#      access-key: AKIA4K6HKSE6IA3TJ6OO
+#      secret-key: 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
+      access-key: AKIAWMTNGN6Z3NLHR2XV
+      secret-key: 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
     region:
       static: ap-southeast-2
     stack:
@@ -10,7 +12,7 @@ cloud:
 
 application:
   bucket:
-    name: toeicappstorage
+    name: toeicapps3
 
 
 spring:
