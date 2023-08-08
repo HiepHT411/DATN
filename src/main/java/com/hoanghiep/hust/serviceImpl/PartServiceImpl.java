@@ -112,7 +112,7 @@ public class PartServiceImpl implements IPartService {
 //            fileNames.append(audio.getOriginalFilename());
 //            newPart.setAudio("/audios/"+fileNames);
             String audioLink = s3service.uploadFile(audio, "audiofiles/");
-            newPart.setAudio("https://toeicappstorage.s3.ap-southeast-2.amazonaws.com/" + audioLink);
+            newPart.setAudio("https://toeicapps3.s3.ap-southeast-2.amazonaws.com/" + audioLink);
         }
         return partRepo.save(newPart);
     }

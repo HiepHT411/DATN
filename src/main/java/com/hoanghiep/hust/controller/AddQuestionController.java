@@ -160,7 +160,7 @@ public class AddQuestionController {
 //                question.setImage("/images/"+fileNames);
             }
             String imageLink = s3service.uploadFile(file, "");
-            question.setImage("https://toeicappstorage.s3.ap-southeast-2.amazonaws.com/" + imageLink);
+            question.setImage("https://toeicapps3.s3.ap-southeast-2.amazonaws.com/" + imageLink);
             questionService.saveQuestion(question);
             log.info("added question successfully");
         }

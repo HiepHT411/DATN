@@ -34,7 +34,7 @@ public class PractiseController {
 
 //        File data = new File("src/main/resources/toeicQuestions.json");
 
-        S3Object s3object = s3Client.getObject("toeicappstorage", "toeicQuestions.json");
+        S3Object s3object = s3Client.getObject("toeicapps3", "toeicQuestions.json");
         InputStream is = s3object.getObjectContent();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
