@@ -50,7 +50,6 @@ public class PractiseController {
     @PostMapping("/practise")
     public String submit(@ModelAttribute Practise practise, Model model) {
         int correct = 0;
-
         for(PractiseQuestion q: practise.getPractiseQuestions())
             if(q.getAnswer().equals(q.getChose()))
                 correct++;
